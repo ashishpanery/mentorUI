@@ -10,6 +10,7 @@ package.json having all the dependencies.
 
 Has all the public files including images, scripts, styles for our screens.
 
+npm install
 npm i -g firebase-tools
 
 firebase init hosting
