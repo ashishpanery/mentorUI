@@ -1,0 +1,192 @@
+<%- include('partials/header') %>
+
+<div class="col-9 col-lg-9 col-sm-12 col-md-12 sessionspace">
+  <div class="container" style="padding-right: 0; margin-right: 0;">
+    <div class="row">
+
+      <div class="col-lg-4 profilephotodiv">
+
+        <div class="imagecircle">
+          <% console.log(data); %>
+          <%const imgsrcc = (imgsrc=='')?'/logo.jpeg':imgsrc;%>
+          <img src="<%= imgsrcc %>" alt="" class="circleimgsrc" name="circleimgsrc" style="height: 10rem; width: 10rem; border-radius: 50%;">
+          <form method="POST" action="/upload-profile-pic" enctype="multipart/form-data">
+            <div>
+              <button onclick="document.getElementById('getImg').click()" class="btn imgbutton2"><i class="fas fa-camera"></i></button>
+              <input type="file" name="profile_pic" id="getImg" style="display: none" />
+            </div>
+            <h4 class="personname"><%= data["name"]%></h5>
+              <h5 class="instructiontext">Pick a photo from your computer</h5>
+              <div>
+                <button onclick="document.getElementById('upload').click()" class="btn btn-block uploadbtn2">Upload Profile Pic</i></button>
+                <%# <input type="file" name="profile_pic" class="btn" id="getImg"style="display: none" /> %>
+                <input type="submit" name="btn_upload_profile_pic" value="Upload" id="upload" style="display: none" />
+              </div>
+          </form>
+        </div>
+
+      </div>
+
+      <div class="col-lg-1" style="max-width: 10px;">
+      </div>
+
+      <div class="col-lg-7 personaldetails">
+        <div class="detailsspace">
+          <h5 class="heading">Personal Details</h5><br>
+
+          <div class="row" style="margin-bottom: 1%;">
+            <div class="col-lg-4 col-sm-6 col-md-6">
+              <h5 class="lefttext"><%= data["name"]%></h5>
+            </div>
+            <div class="col-lg-7 col-sm-6 col-md-6">
+              <h5 class="righttext"><%= data["emailAddress"]%></h5>
+            </div>
+            <div class=" col-lg-1 col-sm-1 col-md-1">
+              <a href="/profiledetailsscreen" style="align-self: flex-end;"><img src="/pencil.png" alt="" class="pencil"></a>
+            </div>
+          </div>
+
+          <div class="row" style="margin-bottom: 1%;">
+            <div class="col-lg-4 col-sm-6 col-md-6">
+              <h5 class="lefttext">Contant Number</h5>
+            </div>
+            <div class="col-lg-5 col-sm-6 col-md-6">
+              <h5 class="righttext"><%= data["phoneNumber"]%></h5>
+            </div>
+          </div>
+
+          <div class="row" style="margin-bottom: 1%;">
+            <div class="col-lg-4 col-sm-6 col-md-6">
+              <h5 class="lefttext">Headline</h5>
+            </div>
+            <div class="col-lg-5 col-sm-6 col-md-6">
+              <h5 class="righttext"><%= data["coverLine"]%></h5>
+            </div>
+          </div>
+
+          <div class="row" style="margin-bottom: 1%;">
+            <div class="col-lg-12">
+              <h5 class="lefttext">About me</h5>
+            </div>
+          </div>
+
+          <div class="row" style="">
+            <div class="col-lg-12">
+              <h5 class="aboutmetext"><%= data["responsibilities"] %></h5>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-4">
+      </div>
+      <div class="col-lg-1" style="max-width: 10px;">
+      </div>
+      <div class="col-lg-7 personaldetails">
+        <div class="detailsspace">
+          <div class="row">
+            <div class="col-lg-11">
+              <h5 class="heading">Experience Details</h5><br>
+            </div>
+            <div class="col-lg-1">
+              <a href="/experience/addnewexperience"><img src="/+.png" alt="" class="pencil"></a>
+            </div>
+          </div>
+
+          <%if(data["exprienceProfile"]){data["exprienceProfile"].forEach(function(item, i){if(item){ console.log(item);%>
+          <div class="row" style="">
+            <div class="col-lg-10" style="margin-bottom: 1%;">
+              <h5 class="educationcompany"><%= item.company %></h5>
+            </div>
+            <div class="col-lg-1">
+              <a href="/editexperience/<%= item['id'] %>" style="align-self: flex-end;"><img src="/pencil.png" alt="" class="pencil"></a>
+            </div>
+            <div class="col-lg-1">
+              <a href="/deleteexperience/<%= item['id'] %>" style="align-self: flex-end;"><img src="/delete.png" alt="" class="pencil"></a>
+            </div>
+          </div>
+          <div class="row" style="">
+            <div class="col-lg-11">
+              <h5 class="educationdesignation">Designation: <%= item.jobTitle %></h5>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 1%;">
+            <div class="col-lg-6">
+              <h5 class="educationdesignation">Currently Working Here: <% if(item.currentlyWorkingHere) {%>Yes<%} else{ %>No<% } %></h5>
+            </div>
+            <div class="col-lg-6">
+              <%if(item.startDate && item.endDate){%>
+                  <h5 class="educationduration"><%= item.startDate.substr(0,4) %> - <%= item.endDate.substr(0,4) %></h5>
+              <%}%>
+
+            </div>
+          </div>
+          <hr>
+          <%}});}%>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-4">
+      </div>
+      <div class="col-lg-1" style="max-width: 10px;">
+      </div>
+      <div class="col-lg-7 personaldetails">
+        <div class="detailsspace">
+          <div class="row">
+            <div class="col-lg-11">
+              <h5 class="heading">Education Details</h5><br>
+            </div>
+            <div class="col-lg-1">
+              <a href="/education/addneweducation"><img src="/+.png" alt="" class="pencil"></a>
+            </div>
+          </div>
+
+          <%if(data["educationProfile"]){data["educationProfile"].forEach(function(item, i){if(item){%>
+          <div class="row" style="">
+            <div class="col-lg-10" style="margin-bottom: 1%;">
+              <h5 class="educationcompany"><%= item.school %></h5>
+            </div>
+            <div class="col-lg-1">
+              <a href="/editeducation/<%= item['id'] %>" style="align-self: flex-end;"><img src="/pencil.png" alt="" class="pencil"></a>
+            </div>
+            <div class="col-lg-1">
+              <a href="/deleteeducation/<%= item['id'] %>" style="align-self: flex-end;"><img src="/delete.png" alt="" class="pencil"></a>
+            </div>
+          </div>
+          <div class="row" style="">
+            <div class="col-lg-11">
+              <h5 class="educationdesignation">Degree: <%= item.degree %></h5>
+            </div>
+          </div>
+          <div class="row" style="margin-bottom: 1%;">
+            <div class="col-lg-6">
+              <h5 class="educationlocation">Field Of Study: <%= item.fieldOfStudy %></h5>
+            </div>
+            <div class="col-lg-6">
+              <h5 class="educationduration"><%= item.startYear %> - <%= item.endDate %></h5>
+            </div>
+          </div>
+          <hr>
+          <%}});}%>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+<%- include('partials/footer') %>

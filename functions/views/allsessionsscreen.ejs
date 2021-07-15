@@ -1,0 +1,531 @@
+<%- include('partials/header') %>
+
+<div class="col-9 col-lg-9 col-sm-12 col-md-12 sessionspace">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-12 col-sm-12 col-md-12">
+        <%if(whichbutton == "REQUEST_PENDING"){%>
+        <a href="/allsessions/REQUEST_PENDING"><button type="button" name="button" class="btn sessionbuttons2 coloredbutton2">Pending</button></a>
+        <%} else{%>
+        <a href="/allsessions/REQUEST_PENDING"><button type="button" name="button" class="btn sessionbuttons2">Pending</button></a>
+        <%}%>
+      <%if(whichbutton == "Scheduled"){%>
+        <a href="/allsessions/Scheduled"><button type="button" name="button" class="btn sessionbuttons2 coloredbutton2">Scheduled</button></a>
+        <%} else{%>
+        <a href="/allsessions/Scheduled"><button type="button" name="button" class="btn sessionbuttons2">Scheduled</button></a>
+        <%}%>
+      <%if(whichbutton == "Completed"){%>
+        <a href="/allsessions/Completed"><button type="button" name="button" class="btn sessionbuttons2 coloredbutton2">Completed</button></a>
+        <%} else{%>
+        <a href="/allsessions/Completed"><button type="button" name="button" class="btn sessionbuttons2">Completed</button></a>
+        <%}%>
+      <%if(whichbutton == "Cancelled"){%>
+        <a href="/allsessions/Cancelled"><button type="button" name="button" class="btn sessionbuttons2 coloredbutton2">Cancelled</button></a>
+        <%} else{%>
+        <a href="/allsessions/Cancelled"><button type="button" name="button" class="btn sessionbuttons2">Cancelled</button></a>
+        <%}%>
+      </div>
+    </div>
+
+        <% var whichArray; %>
+        <%if(whichbutton == "REQUEST_PENDING"){%>
+        <% whichArray = pendingsessions;%>
+        <% } %>
+        <%if(whichbutton == "Scheduled"){%>
+        <% whichArray = scheduledsessions;%>
+        <% } %>
+        <%if(whichbutton == "Completed"){%>
+        <% whichArray = completedsessions; %>
+        <% } %>
+        <%if(whichbutton == "Cancelled"){%>
+        <% whichArray = cancelledsessions; %>
+        <% } %>
+
+        <div class="row toppadd leftpadd" id="container">
+          <% whichArray.forEach((item, i) => { %>
+
+          <div class="col-5 col-lg-5 col-sm-12 col-md-12 sessionitem extratopmargin">
+            <div class="row">
+            <% const imgurl = item['mentee'].photoUrl ? item['mentee'].photoUrl : '/logo.jpeg'%>
+            <div class="col-lg-3 col-sn-3 col-md-3"><img src="<%= imgurl %>" alt="" class="circleimgsrc" style=""></div>
+              <div class="col-lg-5 col-sm-4 col-md-4">
+                <h6 class="menteename" style="margin-top: 2%">
+                  <%= item["mentee"].name %>
+                </h6>
+                <div class="row">
+                  <div class="col-5">
+                    <h5 class="smallboldtext">
+                      Session Id:
+                    </h5>
+                  </div>
+                  <div class="col-5 leftzeropad rightzeropad">
+                    <h6 class="smalltext">
+                      <%= item['id'] %>
+                    </h6>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-5">
+                    <h6 class="smallboldtext">
+                      Status:
+                    </h6>
+                  </div>
+                  <div class="col-5 leftzeropad rightzeropad">
+                    <h6 class="smalltext">
+                      <%= item["status"]=="REQUEST_PENDING"? "Pending": item["status"] %>
+                    </h6>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-5">
+                    <h6 class="smallboldtext">
+                      Date:
+                    </h6>
+                  </div>
+                  <div class="col-5 leftzeropad rightzeropad">
+                    <h6 class="smalltext">
+                      <%= item["startDate"].split("-").reverse().join("-") %>
+                    </h6>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-5">
+                    <h6 class="smallboldtext">
+                      Time:
+                    </h6>
+                  </div>
+                  <div class="col-5 leftzeropad rightzeropad">
+                    <h6 class="smalltext">
+                      <%= item["startTime"] %>
+                    </h6>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-sm-12 col-md-12 sessionactionsspace">
+                <%  if(item["status"]=="REQUEST_PENDING"){ %>
+                <div class="row">
+                  <a href="/session/ACCEPTED/<%= item['id'] %>"><button class="btn col-lg-12 col-md-12 col-sm-12 actionbutton acceptbutton" type="button" name="button">Accept</button></a>
+                </div>
+                <div class="row">
+                  <a href="/session/CANCELLED/<%= item['id'] %>"><button class="btn col-lg-12 col-md-12 col-sm-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a>
+                </div>
+                <% } %>
+
+                <%  if(item["status"]=="STARTED"){ %>
+                <div class="row">
+                  <a href="/joincall/<%= item['id'] %>"><button class="btn col-lg-12 actionbutton joinbutton" type="button" name="button">Join</button></a>
+                </div>
+                <div class="row">
+                  <a href="/session/CANCELLED/<%= item['id'] %>"><button class="btn col-lg-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a>
+                </div>
+                <div class="row">
+                  <button onclick="Reschedule(<%=i%>)" class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="button" name="button">Reschedule</button>
+                  <div id="TestsDiv<%= i %>" style="display:none;">
+                    <% const timeZoneA = item['timeZone'].split(' ')[0]; const timeZoneB = item['timeZone'].split(' ')[1]; const durationA = item['duration'].split(' ')[0];const durationB = item['duration'].split(' ')[1]; %>
+                    <form class="" action="/reschedulesession/<%= item['mentor'].id %>/<%= item['mentee'].id %>/<%= timeZoneA %>/<%= timeZoneB %>/<%= durationA %>/<%= durationB %>/<%= item['sessionAmout'] %>/<%= item['currency'] %>/<%= item['id'] %>"
+                      method="post">
+                      <input type="datetime-local" class="form-control" name="editstartdatetime" style="position: relative; right: 0; top: 10px; max-width: 70px;" placeholder=""></input>
+                      <button class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="submit" name="button" style="position: relative; right: 0; top: 10px;">Save</button>
+                    </form>
+                  </div>
+                </div>
+
+                <% } %>
+
+                <%if(item["status"]=="ACCEPTED"){%>
+                  <div class="row">
+                    <a href="/session/CANCELLED/<%= item['id'] %>"><button class="btn col-lg-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a>
+                  </div>
+                  <div class="row">
+                    <button onclick="Reschedule(<%=i%>)" class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="button" name="button">Reschedule</button>
+                    <div id="TestsDiv<%= i %>" style="display:none;">
+                      <% const timeZoneA = item['timeZone'].split(' ')[0]; const timeZoneB = item['timeZone'].split(' ')[1]; const durationA = item['duration'].split(' ')[0];const durationB = item['duration'].split(' ')[1]; %>
+                      <form class="" action="/reschedulesession/<%= item['mentor'].id %>/<%= item['mentee'].id %>/<%= timeZoneA %>/<%= timeZoneB %>/<%= durationA %>/<%= durationB %>/<%= item['sessionAmout'] %>/<%= item['currency'] %>/<%= item['id'] %>"
+                        method="post">
+                        <input type="datetime-local" class="form-control" name="editstartdatetime" style="position: relative; right: 0; top: 10px; max-width: 70px;" placeholder=""></input>
+                        <button class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="submit" name="button" style="position: relative; right: 0; top: 10px;">Save</button>
+                      </form>
+                    </div>
+                  </div>
+                <%}%>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-1 col-lg-1 col-sm-12 col-md-12">
+
+          </div>
+
+          <% }); %>
+        </div>
+        <div class="loading">
+          <div class="ball"></div>
+          <div class="ball"></div>
+          <div class="ball"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      function Reschedule(i) {
+        var temp = "TestsDiv" + i;
+        console.log(temp);
+        console.log(i);
+        var T = document.getElementById(temp),
+          displayValue = "";
+        if (T.style.display == "")
+          displayValue = "none";
+        T.style.display = displayValue;
+      }
+
+      const container = document.querySelector('#container');
+      const loading = document.querySelector('.loading');
+      const url = "/paginatedsessionsscreen/" + parseInt('<%- pageno+1 %>') + "/" + '<%- whichbutton %>';
+      console.log(url);
+
+      window.addEventListener('scroll', () => {
+        const {
+          scrollTop,
+          scrollHeight,
+          clientHeight
+        } = document.documentElement;
+
+        console.log({
+          scrollTop,
+          scrollHeight,
+          clientHeight
+        });
+        if (clientHeight + scrollTop >= scrollHeight - 5) {
+          // show the loading animation
+          showLoading();
+        }
+      });
+
+      function showLoading() {
+        loading.classList.add('show');
+        // load more data
+        setTimeout(getPosts, 1000)
+      }
+
+      async function getPosts() {
+        axios.get(url).then((response) => {
+          const data = response.data;
+          if (data) {
+            const whichbutton = data["whichbutton"];
+            var whichArray;
+            if (whichbutton == "REQUEST_PENDING") {
+              whichArray = data["pendingessions"];
+            } else if (whichbutton == "Scheduled") {
+              whichArray = data["scheduledsessions"];
+            } else if (whichbutton == "Completed") {
+              whichArray = data["completedsessions"];
+            } else if (whichbutton == "Cancelled") {
+              whichArray = data["cancelledsessions"];
+            }
+            console.log(whichArray);
+            const padElement = document.createElement('div');
+            padElement.classList.add('col-1');
+            padElement.classList.add('col-lg-1');
+            padElement.classList.add('col-sm-12');
+            padElement.classList.add('col-md-12');
+            const postElement = document.createElement('div');
+            postElement.classList.add('col-5');
+            postElement.classList.add('col-lg-5');
+            postElement.classList.add('col-sm-12');
+            postElement.classList.add('col-md-12');
+            postElement.classList.add('sessionitem');
+            postElement.classList.add('extratopmargin');
+
+            whichArray.forEach(function(item, i) {
+              console.log(item);
+              postElement.innerHTML = `
+                <div class="row">
+                  <div class="col-lg-3 col-sn-3 col-md-3"><img src= ${item['mentee'].photoUrl} alt="" class="circleimgsrc" style="">
+                  </div>
+                  <div class="col-lg-5 col-sm-4 col-md-4">
+                    <h6 class="menteename" style="margin-top: 2%">
+                      ${ item["mentee"].name}
+                    </h6>
+                    <div class="row">
+                      <div class="col-4">
+                        <h6 class="smallboldtext">
+                          User Id:
+                        </h6>
+                      </div>
+                      <div class="col-4 leftzeropad rightzeropad">
+                        <h6 class="smalltext">
+                          ${ item['id'] }
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-4">
+                        <h6 class="smallboldtext">
+                          Status:
+                        </h6>
+                      </div>
+                      <div class="col-4 leftzeropad rightzeropad">
+                        <h6 class="smalltext">
+                          ${item["status"]=="REQUEST_PENDING"? "Pending": item["status"]}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-4">
+                        <h6 class="smallboldtext">
+                          Date:
+                        </h6>
+                      </div>
+                      <div class="col-5 leftzeropad rightzeropad">
+                        <h6 class="smalltext">
+                          ${item["startDate"].split("-").reverse().join("-")}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-4">
+                        <h6 class="smallboldtext">
+                          Time:
+                        </h6>
+                      </div>
+                      <div class="col-5 leftzeropad rightzeropad">
+                        <h6 class="smalltext">
+                          ${item["startTime"]}
+                        </h6>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-4 col-sm-12 col-md-12 sessionactionsspace">
+
+                    ${item["status"]=="REQUEST_PENDING"? `<div class="row"><a href="/session/ACCEPTED/"+${ item['id'] %>}><button class="btn col-lg-12 col-md-12 col-sm-12 actionbutton acceptbutton" type="button" name="button">Accept</button></a></div><div class="row"><a href="/session/CANCELLED/"+${ item['id']}><button class="btn col-lg-12 col-md-12 col-sm-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a></div>`:`<div></div>`}
+
+                    ${item["status"]=="ACCEPTED"? `<div class="row"><a href="/joincall/"+${ item['id'] }><button class="btn col-lg-12 actionbutton joinbutton" type="button" name="button">Join</button></a></div>
+                    <div class="row"><a href="/session/CANCELLED/"+${item['id'] }><button class="btn col-lg-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a></div><div class="row"><button onclick="Reschedule(${i})" class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="button" name="button">Reschedule</button><div id="TestsDiv"+${i} style="display:none;">
+                      <form class="" action="/reschedulesession/${item['mentor'].id }/${ item['mentee'].id }/${ item['timeZone'].split(' ')[0] }/${ item['timeZone'].split(' ')[1] }/${ item['duration'].split(' ')[0] }/${ item['duration'].split(' ')[1] }/${ item['sessionAmout']}/${ item['currency'] }/${ item['id'] }"
+                        method="post">
+                        <input type="datetime-local" class="form-control" name="editstartdatetime" style="position: relative; right: 0; top: 10px; max-width: 70px;" placeholder=""></input>
+                        <button class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="submit" name="button" style="position: relative; right: 0; top: 10px;">Save</button>
+                      </form>
+                    </div>`:`<div></div>`}
+
+                  </div>
+                </div>
+              `;
+              container.appendChild(postElement);
+              container.appendChild(padElement);
+            });
+            //     item = {
+            //     "id": "60b79d750ce1e6156bd7d90c",
+            //     "mentor": {
+            //         "id": "60926f8bcec85169b059491c",
+            //         "name": "Williamtest",
+            //         "designation": "Senior Engineer",
+            //         "currentCompany": "Microsoft",
+            //         "previousCompanies": "Amazon",
+            //         "experience": "10",
+            //         "currentCity": "Udaipur",
+            //         "currentCountry": "India",
+            //         "photoUrl": "https://media-exp1.licdn.com/dms/image/C5603AQFxIeYsO4L8PA/profile-displayphoto-shrink_200_200/0/1613412625820?e=1624492800&v=beta&t=QbTMG6sBnujZQsXEYKKpsGdOKiTGpYifG7Xkmpznitw",
+            //         "callRatePerMin": 10,
+            //         "chatRatePerMin": 10,
+            //         "rating": 4,
+            //         "currency": "dollar",
+            //         "likes": 99
+            //     },
+            //     "mentee": {
+            //         "id": "j30djqvqzOfrZT14POTz5vKxq643",
+            //         "name": "Null User Name",
+            //         "photoUrl": "https://image.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg",
+            //         "linkedinProfile": null,
+            //         "phone": "NullPhone Number"
+            //     },
+            //     "status": "ACCEPTED",
+            //     "duration": "30 Min",
+            //     "startDate": "2021-6-2",
+            //     "startTime": "09:00",
+            //     "timeZone": "(GMT+5:30) Mumbai",
+            //     "startTimestamp": null,
+            //     "sessionAmout": 300,
+            //     "currency": "dollar",
+            //     "sessionType": null,
+            //     "purpose": null,
+            //     "menteeId": "j30djqvqzOfrZT14POTz5vKxq643",
+            //     "mentorId": "60926f8bcec85169b059491c"
+            // };
+            // const i=2;
+            //
+            // postElement.innerHTML = `
+            //   <div class="row">
+            //     <div class="col-lg-3 col-sn-3 col-md-3"><img src= ${item['mentee'].photoUrl} alt="" class="circleimgsrc" style="">
+            //     </div>
+            //     <div class="col-lg-5 col-sm-4 col-md-4">
+            //       <h6 class="menteename" style="margin-top: 2%">
+            //         ${ item["mentee"].name}
+            //       </h6>
+            //       <div class="row">
+            //         <div class="col-4">
+            //           <h6 class="smallboldtext">
+            //             User Id:
+            //           </h6>
+            //         </div>
+            //         <div class="col-4 leftzeropad rightzeropad">
+            //           <h6 class="smalltext">
+            //             ${ item['id'] }
+            //           </h6>
+            //         </div>
+            //       </div>
+            //       <div class="row">
+            //         <div class="col-4">
+            //           <h6 class="smallboldtext">
+            //             Status:
+            //           </h6>
+            //         </div>
+            //         <div class="col-4 leftzeropad rightzeropad">
+            //           <h6 class="smalltext">
+            //             ${item["status"]=="REQUEST_PENDING"? "Pending": item["status"]}
+            //           </h6>
+            //         </div>
+            //       </div>
+            //       <div class="row">
+            //         <div class="col-4">
+            //           <h6 class="smallboldtext">
+            //             Date:
+            //           </h6>
+            //         </div>
+            //         <div class="col-5 leftzeropad rightzeropad">
+            //           <h6 class="smalltext">
+            //             ${item["startDate"].split("-").reverse().join("-")}
+            //           </h6>
+            //         </div>
+            //       </div>
+            //       <div class="row">
+            //         <div class="col-4">
+            //           <h6 class="smallboldtext">
+            //             Time:
+            //           </h6>
+            //         </div>
+            //         <div class="col-5 leftzeropad rightzeropad">
+            //           <h6 class="smalltext">
+            //             ${item["startTime"]}
+            //           </h6>
+            //         </div>
+            //       </div>
+            //     </div>
+            //
+            //     <div class="col-lg-4 col-sm-12 col-md-12 sessionactionsspace">
+            //
+            //       ${item["status"]=="REQUEST_PENDING"? `<div class="row"><a href="/session/ACCEPTED/"+${ item['id'] %>}><button class="btn col-lg-12 col-md-12 col-sm-12 actionbutton acceptbutton" type="button" name="button">Accept</button></a></div><div class="row"><a href="/session/CANCELLED/"+${ item['id']}><button class="btn col-lg-12 col-md-12 col-sm-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a></div>`:`<div></div>`}
+            //
+            //       ${item["status"]=="ACCEPTED"? `<div class="row"><a href="/joincall/"+${ item['id'] }><button class="btn col-lg-12 actionbutton joinbutton" type="button" name="button">Join</button></a></div>
+            //       <div class="row"><a href="/session/CANCELLED/"+${item['id'] }><button class="btn col-lg-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a></div><div class="row"><button onclick="Reschedule(${i})" class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="button" name="button">Reschedule</button><div id="TestsDiv"+${i} style="display:none;">
+            //         <form class="" action="/reschedulesession/${item['mentor'].id }/${ item['mentee'].id }/${ item['timeZone'].split(' ')[0] }/${ item['timeZone'].split(' ')[1] }/${ item['duration'].split(' ')[0] }/${ item['duration'].split(' ')[1] }/${ item['sessionAmout']}/${ item['currency'] }/${ item['id'] }"
+            //           method="post">
+            //           <input type="datetime-local" class="form-control" name="editstartdatetime" style="position: relative; right: 0; top: 10px; max-width: 70px;" placeholder=""></input>
+            //           <button class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="submit" name="button" style="position: relative; right: 0; top: 10px;">Save</button>
+            //         </form>
+            //       </div>`:`<div></div>`}
+            //
+            //     </div>
+            //   </div>
+            // `;
+
+
+            // <div class="col-5 col-lg-5 col-sm-12 col-md-12 sessionitem extratopmargin">
+
+            //static data
+            //   postElement.innerHTML = `
+            //   <div class="row">
+            //     <div class="col-lg-3 col-sn-3 col-md-3"><img src="https://image.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg" alt="" class="circleimgsrc" style=""></div>
+            //     <div class="col-lg-5 col-sm-4 col-md-4">
+            //       <h6 class="menteename" style="margin-top: 2%">
+            //         Null User Name
+            //       </h6>
+            //       <div class="row">
+            //         <div class="col-4">
+            //           <h6 class="smallboldtext">
+            //             User Id:
+            //           </h6>
+            //         </div>
+            //         <div class="col-4 leftzeropad rightzeropad">
+            //           <h6 class="smalltext">
+            //             60cb41bb4c00063a339738ff
+            //           </h6>
+            //         </div>
+            //       </div>
+            //       <div class="row">
+            //         <div class="col-4">
+            //           <h6 class="smallboldtext">
+            //             Status:
+            //           </h6>
+            //         </div>
+            //         <div class="col-4 leftzeropad rightzeropad">
+            //           <h6 class="smalltext">
+            //             ACCEPTED
+            //           </h6>
+            //         </div>
+            //       </div>
+            //       <div class="row">
+            //         <div class="col-4">
+            //           <h6 class="smallboldtext">
+            //             Date:
+            //           </h6>
+            //         </div>
+            //         <div class="col-5 leftzeropad rightzeropad">
+            //           <h6 class="smalltext">
+            //             19-6-2021
+            //           </h6>
+            //         </div>
+            //       </div>
+            //       <div class="row">
+            //         <div class="col-4">
+            //           <h6 class="smallboldtext">
+            //             Time:
+            //           </h6>
+            //         </div>
+            //         <div class="col-5 leftzeropad rightzeropad">
+            //           <h6 class="smalltext">
+            //             12:30
+            //           </h6>
+            //         </div>
+            //       </div>
+            //     </div>
+            //     <div class="col-lg-4 col-sm-12 col-md-12 sessionactionsspace">
+            //
+            //
+            //
+            //       <div class="row">
+            //         <a href="/joincall/60cb41bb4c00063a339738ff"><button class="btn col-lg-12 actionbutton joinbutton" type="button" name="button">Join</button></a>
+            //       </div>
+            //       <div class="row">
+            //         <a href="/session/CANCELLED/60cb41bb4c00063a339738ff"><button class="btn col-lg-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a>
+            //       </div>
+            //       <div class="row">
+            //         <button onclick="Reschedule(0)" class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="button" name="button">Reschedule</button>
+            //         <div id="TestsDiv0" style="display:none;">
+            //
+            //           <form class="" action="/reschedulesession/60926f8bcec85169b059491c/j30djqvqzOfrZT14POTz5vKxq643/(GMT+5:30)/Mumbai/30/Min/300/dollar/60cb41bb4c00063a339738ff" method="post">
+            //             <input type="datetime-local" class="form-control" name="editstartdatetime" style="position: relative; right: 0; top: 10px; max-width: 70px;" placeholder="">
+            //             <button class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="submit" name="button" style="position: relative; right: 0; top: 10px;">Save</button>
+            //           </form>
+            //         </div>
+            //       </div>
+            //
+            //
+            //
+            //     </div>
+            //   </div>
+            // `;
+            // container.appendChild(postElement);
+            // container.appendChild(padElement);
+            // container.innerHTML += postElement.innerHTML;
+          }
+        }).catch((error) => {
+          console.log(error);
+        });
+        loading.classList.remove('show');
+      }
+    </script>
+
+    <%- include('partials/footer') %>

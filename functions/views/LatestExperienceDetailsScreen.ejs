@@ -1,0 +1,242 @@
+<%- include('partials/header') %>
+
+<div class="col-9 col-lg-9 col-sm-12 col-md-12 sessionspace">
+
+        <div class="row">
+          <div class="col-lg-12">
+          </div>
+        </div>
+
+          <%if(whichbutton == "addedexperience"){%>
+            <div class="col-lg-12 sessiongreenbar">
+              <div class="row greenbaritems">
+                <div class="col-lg-2">
+                  Company Name
+                </div>
+                <div class="col-lg-2">
+                  Role
+                </div>
+                <div class="col-lg-2">
+                  Start Date
+                </div>
+                <div class="col-lg-2">
+                  End Date
+                </div>
+                <div class="col-lg-3">
+                  Current Company
+                </div>
+              </div>
+            </div>
+            <%console.log(data); data.forEach((item, i) => { %>
+            <div class="col-lg-12 sessionwhitebars">
+              <div class="row">
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["company"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["jobTitle"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["startDate"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["endDate"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["currentlyWorkingHere"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <div class="row">
+                    <a href="/editexperience/<%= item['id'] %>"><button class="btn col-lg-12 actionbutton acceptbutton" type="button" name="button">Edit</button></a>
+                    <a href="/deleteexperience/<%= item['id'] %>"><button class="btn col-lg-12 actionbutton cancelbutton" type="button" name="button">Delete</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <%});%>
+
+            <% } %>
+
+            <%if(whichbutton=="editexperience"){%>
+            <div class="row">
+              <div class="col-lg-12">
+                <form class="" action="/editsaveexperience/<%= data['id'] %>" method="post" style="padding: 3%;padding-left: 1%;">
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Company Name</label> <br>
+                        <input type="text" class="form-control inputclass" name="editcompanyname"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Job Title</label> <br>
+                        <input type="text" class="form-control inputclass" name="editjobtitle"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-5 marginright">
+                      <div class="form-group">
+                        <label for="date">Start Date</label> <br>
+                        <input type="date" class="form-control inputclass" name="editstartdate"></input>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 marginright">
+                      <div class="form-group">
+                        <label for="date">End Date</label> <br>
+                        <input type="date" class="form-control inputclass" name="editenddate">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row" style="padding-top: 2%;">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="bool">Currently Working Here</label> <br>
+
+                        <div class="row" style="">
+                          <div class="col-lg-3">
+                            <input class="form-check-input" type="hidden" name="editworkmethod" id="editworkmethod">
+                            <label class="btn btn-outline-primary col-lg-5 workButtons" id="workTrue" for="inlineRadio1">True</label>
+                            <input class="form-check-input" type="hidden" name="editworkmethod" id="editworkmethod">
+                            <label class="btn btn-outline-primary col-lg-5 workButtons" id="workFalse" for="inlineRadio2">False</label>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <button type="submit" onclick="<%console.log('clicked'); %>" class="btn btn-primary btn-block" style="color: white; background-color: #006DAB;">Save Experience Details</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+
+            <%}%>
+
+            <%if(whichbutton == "addnewexperience"){%>
+            <div class="row">
+              <div class="col-lg-12">
+              <h2 class="mainheading">Experience Details</h2>
+                <form class="" action="/saveexperience" method="post" style="padding: 3%;padding-left: 1%;">
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Company Name</label> <br>
+                        <input type="text" class="form-control inputclass" name="companyname"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Job Title</label> <br>
+                        <input type="text" class="form-control inputclass" name="jobtitle"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-5 marginright">
+                      <div class="form-group">
+                        <label for="date">Start Date</label> <br>
+                        <input type="date" class="form-control inputclass" name="startdate"></input>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 marginright">
+                      <div class="form-group">
+                        <label for="date">End Date</label> <br>
+                        <input type="date" class="form-control inputclass" name="enddate">
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row" style="padding-top: 2%;">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="bool">Currently Working Here</label> <br>
+
+                        <div class="row" style="">
+                          <div class="col-lg-3">
+                            <input class="form-check-input" type="hidden" name="workmethod" id="workmethod">
+                            <label class="btn btn-outline-primary col-lg-5 workButtons" id="workTrue" for="inlineRadio1">True</label>
+                            <input class="form-check-input" type="hidden" name="workmethod" id="workmethod">
+                            <label class="btn btn-outline-primary col-lg-5 workButtons" id="workFalse" for="inlineRadio2">False</label>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <button type="submit" onclick="<%console.log('clicked'); %>" class="btn btn-primary btn-block" style="color: white; background-color: #006DAB;">Save Experience Details</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+
+            <%}%>
+
+
+
+
+
+      </div>
+      <div class="vl">
+        <%# this is for shadow %>
+          </div>
+
+
+        </div>
+
+
+        <script type="text/javascript">
+          $('#workTrue').on('click', function() {
+            $('#workmethod').val(true);
+            console.log($("#workmethod"));
+            console.log("clicked");
+          });
+          $('#workFalse').on('click', function() {
+            $('#workmethod').val(false);
+            console.log($("#workmethod").val);
+            console.log("clicked");
+          });
+          document.getElementsByName("editcompanyname")[0].defaultValue = '<%- data["company"]%>';
+          document.getElementsByName("editjobtitle")[0].defaultValue = '<%- data["jobTitle"]%>';
+          document.getElementsByName("editstartdate")[0].defaultValue = '<%- data["startDate"]%>';
+          document.getElementsByName("editenddate")[0].defaultValue = '<%- data["endDate"]%>';
+          document.getElementsByName("editworkmethod")[0].defaultValue = '<%- data["currentlyWorkingHere"]%>';
+          $('#editworkTrue').on('click', function() {
+            $('#editworkmethod').val(true);
+            console.log($("#workmethod"));
+            console.log("clicked");
+          });
+          $('#editworkFalse').on('click', function() {
+            $('#editworkmethod').val(false);
+            console.log($("#workmethod").val);
+            console.log("clicked");
+          });
+        </script>
+
+<%- include('partials/footer') %>

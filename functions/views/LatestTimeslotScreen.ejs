@@ -1,0 +1,218 @@
+<%- include('partials/header') %>
+
+<div class="col-9 col-lg-9 col-sm-12 col-md-12 sessionspace" style="padding: 3%; padding-top: 0;">
+  <h4 class="slotheading">Your Availablity and timeslots</h4>
+  <p class="slotsubheading">You will be spending 30 Mins bi-weekly sessions with each mentee.</p>
+  <% const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %>
+  <h5 class="slotheading">I am free on</h5>
+  <div class="col-lg-12 greydiv" id="greydiv">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="row">
+          <%# <h6 class="slotheading" style="margin-top: 2%;">Select Day</h6> %>
+          <%# hello %>
+          <div class="col-lg-12">
+            <h6 class="slotheading" style="margin-top: 2%;">Select Day</h6>
+            <div class="dropdown" id="days">
+              <button class="btn btn-secondary dropdown-toggle shadow-none col-lg-8 slotbutton2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= selectedday %>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="daylist">
+                <% days.forEach((day, i) => {%>
+                <a class="dropdown-item" href="" id="active"><%= day %></a>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-lg-12">
+            <h6 class="slotheading" style="margin-top: 2%;">Select TimeSlot</h6>
+            <div class="dropdown" id="slots">
+              <button class="btn btn-secondary dropdown-toggle shadow-none col-lg-8 slotbutton2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Time Slots
+              </button>
+              <div class="dropdown-menu scrollable2 col-lg-12" id="daylist2" aria-labelledby="dropdownMenuButton1" style="width: 250px;">
+                <%amslots[selectedday].forEach((slot, i) => { %>
+                <% if(slot['display']=="none"){console.log("it was none"); %>
+                <a id="choosedslot" class="dropdown-item disabled" style="background-color: #F2F2F2" href=""><%= slot['start'] %> - <%= slot['end'] %></a>
+                <% }else{ %>
+                <a class="dropdown-item" href=""><%= slot['start'] %> - <%= slot['end'] %></a>
+                <% } %>
+                <%});%>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h4 class="slotheading" style="margin-top: 2%;">Selected Timeslots</h4>
+    </div>
+  </div>
+  <%days.forEach(function(day, i){%>
+  <div class="whitediv" id="selectedslots">
+    <div class="row slotbox" id="detaildiv/<%=i %>">
+      <%var count=0 %>
+      <%amslots[day].forEach(function(item, k){%>
+      <%if(item.display=='none'){count+=1} %>
+      <%});%>
+      <div class="col-lg-1 col-sm-1 col-md-1">
+        <%=i+1%>.
+      </div>
+      <div class="col-lg-2 col-sm-2 col-md-2">
+        <%=day%>
+      </div>
+      <div class="col-lg-5 col-sm-5 col-md-5" style="color: #007CC2;">
+        No of slots: <%= count %>
+      </div>
+      <div class="col-lg-3 col-sm-3 col-md-3">
+      </div>
+      <div class="col-lg-1 col-sm-1 col-md-1">
+        <a onclick="flip(<%=i %>)" id="bottom/<%=i %>"><img src="/dropdownbottom.png" alt="" style="height: 30px; width: 30px;"></a>
+        <a onclick="flip(<%=i %>)" id="up/<%=i %>" style="display: none;"><img src="/dropdownup.png" alt="" style="height: 30px; width: 30px;"></a>
+      </div>
+    </div>
+    <div class="row slotbox2" style="display: none;" id="slotdiv/<%=i %>">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="row">
+          <%amslots[day].forEach(function(slot, k){%>
+          <%if (slot["display"]=='none') {%>
+          <div class="col-lg-3 slotspace2" style="margin-top: 10px; max-height: 100px">
+            <button type="button" id="x" name="" class="btn col-lg-12 addedslotsbuttons2" style="display: inline-block; font-size: 12px"><%= slot['start'] %> - <%= slot['end'] %><div class="x"></div></button>
+          </div>
+          <% } %>
+          <%});%>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <%});%>
+
+  <div class="loading2">
+    <div class="ball"></div>
+    <div class="ball"></div>
+    <div class="ball"></div>
+  </div>
+
+  <form class="" action="/saveslots" method="post">
+    <button type="submit" class="btn btn-block submitslotbutton saveslotbutton" name="button">Save Details For Whole Year</button>
+  </form>
+
+</div>
+
+<script type="text/javascript">
+  var day = "Monday";
+
+  const loading = document.querySelector('.loading2');
+
+  function showLoading() {
+    loading.classList.add('show');
+  }
+
+  function flip(i) {
+    var temp = "slotdiv/" + i;
+    var temp2 = "detaildiv/" + i;
+    var T = document.getElementById(temp),
+      displayValue = "";
+    if (T.style.display == "")
+      displayValue = "none";
+    T.style.display = displayValue;
+    T = document.getElementById(temp2);
+    console.log(T);
+    displayValue = "";
+    if (T.style.display == "")
+      displayValue = "none";
+
+    var tempid = "up/" + i;
+    var P = document.getElementById(tempid);
+    displayValue = "";
+    if (P.style.display == "")
+      displayValue = "none";
+    P.style.display = displayValue;
+
+    var tempid2 = "bottom/" + i;
+    var Q = document.getElementById(tempid2);
+    displayValue = "";
+    if (Q.style.display == "")
+      displayValue = "none";
+    Q.style.display = displayValue;
+
+  }
+
+  $('body').on('click', '#days a', async function(e) {
+    showLoading();
+    console.log("showing loading");
+    e.preventDefault();
+    const selectedday = $(this).text();
+    day = selectedday;
+    const url = "/slots/" + selectedday;
+    await axios.get(url).then((response) => {
+      const data = response.data;
+      $('#slots').load(document.URL + ' #slots');
+      $('#days').load(document.URL + ' #days');
+      setTimeout(() => {
+        loading.classList.remove('show');
+      }, 13000);
+      // $('#days').load(document.URL +  ' #days');
+      // $('#slots').load(document.URL +  ' #slots');
+      // $("#slots").load(location.href + " #slots");
+      // $("#selectedslots/"+day).load(location.href + " #selectedslots/"+day);
+    }).catch((error) => {
+      console.log(error);
+    });
+  });
+
+  $('body').on('click', '#slots a', async function(e) {
+    showLoading();
+    console.log("showing loading");
+    e.preventDefault();
+    selectedslot = $(this).text().split('-');
+    const slotstart = selectedslot[0].trim();
+    const slotend = selectedslot[1].trim();
+    const url = "/addslot/" + day + "/" + slotstart + "/" + slotend;
+    // console.log(url);
+    await axios.get(url).then((response) => {
+      const data = response.data;
+      $('#slots').load(document.URL + ' #slots');
+      $('#days').load(document.URL + ' #days');
+      $('#selectedslots').load(document.URL + ' #selectedslots');
+      setTimeout(() => {
+        loading.classList.remove('show');
+      }, 20000);
+    }).catch((error) => {
+      console.log(error);
+    })
+  });
+
+  $('body').on('click', '#x', async function(e) {
+    showLoading();
+    console.log("showing loading");
+    e.preventDefault();
+    selectedslot = $(this).text().split('-');
+    const slotstart = selectedslot[0].trim();
+    const slotend = selectedslot[1].trim();
+    const url = "/removeslot/" + day + "/" + slotstart + "/" + slotend;
+    await axios.get(url).then((response) => {
+      const data = response.data;
+      $('#slots').load(document.URL + ' #slots');
+      $('#days').load(document.URL + ' #days');
+      $('#selectedslots').load(document.URL + ' #selectedslots');
+      setTimeout(() => {
+        loading.classList.remove('show');
+      }, 20000);
+    }).catch((error) => {
+      console.log(error);
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>

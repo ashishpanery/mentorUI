@@ -1,0 +1,236 @@
+<%- include('partials/header') %>
+
+<div class="col-9 col-lg-9 col-sm-12 col-md-12 sessionspace">
+
+  <div class="container" style="margin-top: 2%;">
+    <form class="" action="/savementor" method="post">
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">Name</label>
+            <input type="text" class="form-control inputclass" name="name">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">Username</label>
+            <input type="text" class="form-control inputclass" name="username">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="email">Email</label> <br>
+            <input type="email" class="form-control inputclass" name="email"></input>
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="tel">Mobile Number</label> <br>
+            <input type="tel" class="form-control inputclass" name="phno" valuer="hello">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">Current Company</label>
+            <input type="text" class="form-control inputclass" name="currentcompany">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">Designation</label>
+            <input type="text" class="form-control inputclass" name="designation">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text"> Previous Company</label>
+            <input type="text" class="form-control inputclass" name="previouscompany">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="number">Total Experience Years</label>
+            <input type="number" class="form-control inputclass" name="totalexperience">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">Responsibilities</label>
+            <input type="text" class="form-control inputclass" name="responsibilities">
+            <%# <textarea type="text" class="form-control inputclass" name="responsibilities" rows="3"></textarea> %>
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">Cover Line</label>
+            <input type="text" class="form-control inputclass" name="coverline">
+            <%# <textarea type="text" class="form-control inputclass" name="coverline" rows="3"></textarea> %>
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <%# <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="number">Call Rate Per Minute</label>
+            <input type="number" class="form-control inputclass" name="callrateperminute">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="number">Chat Rate Per Minute</label>
+            <input type="number" class="form-control inputclass" name="chatrateperminute">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div> %>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="number">Pincode</label>
+            <input type="number" class="form-control inputclass" name="pincode">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">City</label>
+            <input type="text" class="form-control inputclass" name="city">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">State</label>
+            <input type="text" class="form-control inputclass" name="state">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">Country</label>
+            <input type="text" class="form-control inputclass" name="country">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5" style="margin-top: 2%;">
+          <div class="form-group">
+            <label for="password">Timezone</label>
+            <select name="timezones">
+              <%timezone.forEach(function(item){%>
+              <option timeZoneId="1" gmtAdjustment="<%= item['offset'] %>" useDaylightTime="0" value="<%= item['offset'] %> <%= item['name'] %>"> <%= item['offset'] %> <%= item['name'] %></option>
+              <%});%>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 2%;">
+        <div class="col-lg-12">
+          <button type="submit" onclick="<%console.log('clicked'); %>" class="btn btn-primary btn-block" style="color: white; background-color: #006DAB;">Update Profile Details</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
+</div>
+<div class="vl">
+  <%# this is for shadow %>
+</div>
+
+
+<script type="text/javascript">
+
+$( document ).ready(function() {
+  console.log('<%- data %>')
+  document.getElementsByName("username")[0].defaultValue = '<%- data["userName"]%>';
+  document.getElementsByName("name")[0].defaultValue = '<%- data["name"]%>';
+  document.getElementsByName("country")[0].defaultValue = '<%- data["country"]%>';
+  // document.getElementsByName("linkedinprofile")[0].defaultValue = '<%- data["linkedinProfile"]%>';
+  document.getElementsByName("city")[0].defaultValue = '<%- data["city"]%>';
+  document.getElementsByName("pincode")[0].defaultValue = '<%- data["pinCode"]%>';
+  // document.getElementsByName("chatrateperminute")[0].defaultValue = '<%- data["chatRatePerMin"]%>';
+  // document.getElementsByName("callrateperminute")[0].defaultValue = '<%- data["callRatePerMin"]%>';
+  document.getElementsByName("coverline")[0].defaultValue = '<%- data["coverLine"]%>';
+  document.getElementsByName("responsibilities")[0].defaultValue = '<%- data["responsibilities"]%>';
+  document.getElementsByName("totalexperience")[0].defaultValue = '<%- data["totalExperienceYears"]%>';
+  document.getElementsByName("previouscompany")[0].defaultValue = '<%- data["previousCompany"]%>';
+  document.getElementsByName("designation")[0].defaultValue = '<%- data["designation"]%>';
+  document.getElementsByName("currentcompany")[0].defaultValue = '<%- data["currentCompany"]%>';
+  document.getElementsByName("phno")[0].defaultValue = '<%- data["phoneNumber"]%>';
+  document.getElementsByName("email")[0].defaultValue = '<%- data["emailAddress"]%>';
+  document.getElementsByName("state")[0].defaultValue = '<%- data["state"]%>';
+  // document.getElementsByName("currency")[0].defaultValue = '<%- data["currency"]%>';
+  // document.getElementsByName("circleimgsrc")[0].src = '<%- data["photoUrl"]%>';
+});
+</script>
+
+
+</body>
+
+</html>

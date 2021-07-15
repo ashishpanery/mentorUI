@@ -1,0 +1,127 @@
+<%- include('partials/header') %>
+
+<div class="col-9 col-lg-9 col-sm-12 col-md-12 sessionspace">
+
+
+  <br>
+
+      <div class="pandiv">
+
+        <%const panimgsrc = (imgsrc=='')?'/logo.jpeg':imgsrc;%>
+        <img src="<%= panimgsrc %>" alt="" class="circlepansrc" name="pancircleimgsrc">
+        <form method="POST" action="/upload-pan-pic" enctype="multipart/form-data">
+          <div class="form-row">
+            <div class="col-lg-12 marginright">
+              <div class="form-group">
+                <div>
+                  <button onclick="document.getElementById('getImg').click()" class="btn panimgbutton" style="color: white; background-color: #006DAB;"><i class="fas fa-camera"></i></button>
+                  <input type="file" name="profile_pic" id="getImg" style="display: none" />
+                </div>
+                <div>
+                  <button onclick="document.getElementById('upload').click()" class="btn btn-block btn-primary uploadbtn" style="color: white; background-color: #006DAB;">Upload PAN Card Pic</i></button>
+                  <%# <input type="file" name="profile_pic" class="btn" id="getImg"style="display: none" /> %>
+                  <input type="submit" name="btn_upload_profile_pic" value="Upload" id="upload" style="display: none" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <br><br>
+
+    <form class="" action="/savepaymentdetails" method="post" style="padding: 3%;">
+
+      <div class="row">
+        <h5 class="errormsg"><%= msg %></h5>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-11">
+          <div class="form-group">
+            <label for="text">Account Holder Full Name</label> <br>
+            <input type="text" class="form-control inputclass" name="accountholderfullname">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-11">
+          <div class="form-group">
+            <label for="text">Payment Mode</label> <br>
+            <input type="text" class="form-control inputclass" name="paymentmode"></input>
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">Account Number</label> <br>
+            <input type="text" class="form-control inputclass" name="accountnumber"></input>
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">Confirm Account Number</label> <br>
+            <input type="text" class="form-control inputclass" name="confirmaccountnumber"></input>
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">IFSC Code</label> <br>
+            <input type="text" class="form-control inputclass" name="ifsccode">
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="col-lg-5">
+          <div class="form-group">
+            <label for="text">PAN Card Number</label> <br>
+            <input type="text" class="form-control inputclass" name="pancard"></input>
+          </div>
+        </div>
+        <div class="col-lg-1">
+        </div>
+      </div>
+
+      <div class="row" style="margin-bottom: 2%;">
+        <div class="col-lg-12">
+          <button type="submit" onclick="<%console.log('clicked'); %>" class="btn btn-primary btn-block" style="color: white; background-color: #006DAB;">Update Payment Details</button>
+        </div>
+      </div>
+
+    </form>
+
+
+    <br><br><br><br>
+
+</div>
+<div class="vl">
+  <%# this is for shadow %>
+</div>
+
+<script type="text/javascript">
+  document.getElementsByName("paymentmode")[0].defaultValue = '<%- data["paymentProfile"].paymentMode%>';
+  document.getElementsByName("accountholderfullname")[0].defaultValue = '<%- data["paymentProfile"].accountHolderFullName%>';
+  document.getElementsByName("accountnumber")[0].defaultValue = '<%- accountnumber%>';
+  document.getElementsByName("confirmaccountnumber")[0].defaultValue = '<%- confirmaccountnumber%>';
+  document.getElementsByName("ifsccode")[0].defaultValue = '<%- data["paymentProfile"].ifscCode%>';
+  document.getElementsByName("pancard")[0].defaultValue = '<%- data["paymentProfile"].panCard%>';
+  // document.getElementsByName("pancircleimgsrc")[0].src='<%- data["paymentProfile"].panPhotoUrl%>';
+</script>
+</div>
+
+<%- include('partials/footer') %>

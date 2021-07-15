@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title><%= subject %></title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src='https://meet.jit.si/external_api.js'></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <!-- <script src='https://<%= serverUrl %>/external_api.js'></script> -->
+  <script type="text/javascript">
+    $(document).ready(function() {
+      const domain = 'meet.jit.si';
+      // const domain = '<%= serverUrl %>'
+      console.log('<%= serverUrl %>');
+      const options = {
+        // roomName: 'JitsiMeetAPIExample',
+        roomName: '<%= roomName %>',
+        // width: 700,
+        // height: 700,
+        parentNode: document.querySelector('#meet'),
+        configOverwrite: {},
+        interfaceConfigOverwrite: {}
+      };
+      const api = new JitsiMeetExternalAPI(domain, options);
+      api.on('readyToClose', () => {
+          console.log("*************************************************");
+      });
+      api.addListener('readyToClose', async function(){
+        // console.log("Hello");
+        // console.log("*************************************************");
+        // window.location = "http://localhost:5000/homescreen";
+        const url = '/session/COMPLETED/'+'<%= sessionid %>';
+        await axios.get(url).then(function(){
+          console.log("SET");
+          window.location = "http://localhost:5000/homescreen";
+        }).catch((error)=>{
+          console.log(error);
+        });
+
+        // const url = "/homescreen"
+        // axios.get(url).then(function(response){
+        //   console.log("sent the get");
+        //   console.log(response);
+        // }).catch((error)=>{
+        //   console.log(error);
+        // });
+      });
+
+      // api.addEventListener('readyToClose', function(event) {
+      //   console.log(event);
+      //   console.log("*************************************************");
+      // });
+    });
+  </script>
+</head>
+
+<body>
+
+  <div class="col-lg-12" style="height:100vh;" id="meet">
+
+  </div>
+
+</body>
+
+</html>

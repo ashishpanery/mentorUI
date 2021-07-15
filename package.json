@@ -1,0 +1,39 @@
+{
+  "name": "internship",
+  "version": "1.0.0",
+  "description": "Internship",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "KvaCh",
+  "license": "ISC",
+  "dependencies": {
+    "@firebase/firestore": "^2.3.6",
+    "agora-rtc-sdk": "^3.6.0",
+    "ajax": "^0.0.4",
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "bootstrap-table": "^1.18.3",
+    "chart.js": "^3.4.0",
+    "datatables.net": "^1.10.25",
+    "datatables.net-dt": "^1.10.25",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
+    "express-session": "^1.17.2",
+    "file-upload": "^0.0.0",
+    "firebase": "^8.6.7",
+    "firebase-tools": "^9.16.0",
+    "firestore": "^1.1.6",
+    "fs": "^0.0.1-security",
+    "jquery": "^3.6.0",
+    "lib-jitsi-meet-dist": "^2.1.5",
+    "lodash": "^3.10.1",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.7",
+    "path": "^0.12.7",
+    "require.js": "^1.0.0",
+    "superagent": "^6.1.0"
+  }
+}

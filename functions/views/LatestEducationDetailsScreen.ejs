@@ -1,0 +1,247 @@
+<%- include('partials/header') %>
+
+<div class="col-9 col-lg-9 col-sm-12 col-md-12 sessionspace">
+
+        <div class="row">
+          <div class="col-lg-12">
+
+          </div>
+        </div>
+
+          <%if(whichbutton == "addededucation"){%>
+            <div class="col-lg-12 sessiongreenbar sloteducation">
+              <div class="row greenbaritems">
+                <div class="col-lg-2">
+                  School Name
+                </div>
+                <div class="col-lg-2">
+                  Degree
+                </div>
+                <div class="col-lg-2">
+                  Field Of Study
+                </div>
+                <div class="col-lg-2">
+                  Duration
+                </div>
+                <div class="col-lg-3">
+                  Grade
+                </div>
+
+              </div>
+            </div>
+            <%console.log(data);console.log(whichbutton); data.forEach((item, i) => { %>
+            <div class="col-lg-12 sessionwhitebars">
+              <div class="row">
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["school"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["degree"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["fieldOfStudy"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["startYear"] %>-<%= item["endDate"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <h6 class="datetext experiencedetails"><%= item["grade"] %></h6>
+                </div>
+                <div class="col-lg-2">
+                  <div class="row">
+                    <a href="/editeducation/<%= item['id'] %>"><button class="btn col-lg-12 actionbutton acceptbutton" type="button" name="button">Edit</button></a>
+                    <a href="/deleteeducation/<%= item['id'] %>"><button class="btn col-lg-12 actionbutton cancelbutton" type="button" name="button">Delete</button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <%});%>
+
+            <% } %>
+
+            <%if(whichbutton=="editeducation"){ console.log("printing");%>
+
+            <div class="row">
+              hello
+              <div class="col-lg-12">
+              <h2 class="mainheading">Education Details</h2>
+                <form class="" action="/editsaveeducation/<%= data['id'] %>" method="post" style="padding: 3%;padding-left: 1%;">
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">School Name</label> <br>
+                        <input type="text" class="form-control inputclass" id="editschoolname" name="editschoolname"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Degree</label> <br>
+                        <input type="text" class="form-control inputclass" name="editdegree"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Field Of Study</label> <br>
+                        <input type="text" class="form-control inputclass" name="editfieldofstudy"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-5 marginright">
+                      <div class="form-group">
+                        <label for="number">Start year</label> <br>
+                        <input type="number" class="form-control inputclass" name="editstartyear"></input>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 marginright">
+                      <div class="form-group">
+                        <label for="number">End year</label> <br>
+                        <input type="number" class="form-control inputclass" name="editendyear"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Grade</label> <br>
+                        <input type="text" class="form-control inputclass" name="editgrade"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Description</label> <br>
+                        <textarea type="text" class="form-control inputclass" name="editdescription" rows="4"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <button type="submit" onclick="<%console.log('clicked'); %>" class="btn btn-primary btn-block" style="color: white; background-color: #006DAB;">Save Education Details</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+
+            <%}%>
+
+            <%if(whichbutton == "addneweducation"){%>
+
+            <div class="row">
+              <div class="col-lg-12">
+              <h2 class="mainheading">Education Details</h2>
+                <form class="" action="/saveeducation" method="post" style="padding: 3%;padding-left: 1%;">
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">School Name</label> <br>
+                        <input type="text" class="form-control inputclass" name="schoolname"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Degree</label> <br>
+                        <input type="text" class="form-control inputclass" name="degree"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Field Of Study</label> <br>
+                        <input type="text" class="form-control inputclass" name="fieldofstudy"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-5 marginright">
+                      <div class="form-group">
+                        <label for="number">Start year</label> <br>
+                        <input type="number" class="form-control inputclass" name="startyear"></input>
+                      </div>
+                    </div>
+                    <div class="col-lg-5 marginright">
+                      <div class="form-group">
+                        <label for="number">End year</label> <br>
+                        <input type="number" class="form-control inputclass" name="endyear"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Grade</label> <br>
+                        <input type="text" class="form-control inputclass" name="grade"></input>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <label for="text">Description</label> <br>
+                        <textarea type="text" class="form-control inputclass" name="description" rows="4"></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="col-lg-12 marginright">
+                      <div class="form-group">
+                        <button type="submit" onclick="<%console.log('clicked'); %>" class="btn btn-primary btn-block" style="color: white; background-color: #006DAB;">Save Education Details</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+
+            <%}%>
+
+      </div>
+
+      </div>
+      <div class="vl">
+        <%# this is for shadow %>
+          </div>
+
+
+        </div>
+
+        <script type="text/javascript">
+          document.getElementsByName("editschoolname")[0].defaultValue = '<%- data["school"]%>';
+          document.getElementsByName("editdegree")[0].defaultValue = '<%- data["degree"]%>';
+          document.getElementsByName("editfieldofstudy")[0].defaultValue = '<%- data["fieldOfStudy"]%>';
+          document.getElementsByName("editstartyear")[0].defaultValue = '<%- data["startYear"]%>';
+          document.getElementsByName("editendyear")[0].defaultValue = '<%- data["endDate"]%>';
+          document.getElementsByName("editgrade")[0].defaultValue = '<%- data["grade"]%>';
+          document.getElementsByName("editdescription")[0].defaultValue = '<%- data["description"]%>';
+        </script>
+
+</body>
+
+</html>

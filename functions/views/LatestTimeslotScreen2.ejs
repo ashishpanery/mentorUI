@@ -1,0 +1,166 @@
+<%- include('partials/header') %>
+
+<div class="col-9 col-lg-9 col-sm-12 col-md-12 sessionspace" style="padding: 3%; padding-top: 0;">
+
+  <h4 class="slotheading">Your Availablity and timeslots</h4>
+  <p class="slotsubheading">You will be spending 30 Mins bi-weekly sessions with each mentee.</p>
+  <% const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %>
+  <% const count = {"Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0, "Sunday": 0}; %>
+  <h5 class="slotheading">I am free on</h5>
+  <div class="row">
+    <div class="col-lg-12">
+      <h4 class="slotheading" style="margin-top: 2%;">Selected Timeslots</h4>
+    </div>
+  </div>
+
+
+<% days.forEach(function(day, i){ var temp=0; for(var p in amslots[day]){if(amslots[day][p][2]=='none'){temp+=1;}} count[day] = temp;}); %>
+
+<% console.log(count); %>
+
+  <%days.forEach(function(day, i){ %>
+  <div class="whitediv" id="selectedslots">
+
+    <div class="row slotbox" id="detaildiv_<%=i %>">
+
+      <div class="col-lg-1 col-sm-1 col-md-1">
+        <%=i+1%>.
+      </div>
+      <div class="col-lg-2 col-sm-2 col-md-2">
+        <%=day%>
+      </div>
+      <div class="col-lg-5 col-sm-5 col-md-5" style="color: #007CC2;" id="<%= day %>/<%= i %>">
+        No of slots: <%= count[day] %>
+      </div>
+      <div class="col-lg-3 col-sm-3 col-md-3">
+      </div>
+      <div class="col-lg-1 col-sm-1 col-md-1">
+        <a onclick="flip(<%=i %>)" id="bottom/<%=i %>"><img src="/dropdownbottom.png" alt="" style="height: 30px; width: 30px;"></a>
+        <a onclick="flip(<%=i %>)" id="up/<%=i %>" style="display: none;"><img src="/dropdownup.png" alt="" style="height: 30px; width: 30px;"></a>
+      </div>
+    </div>
+
+    <div class="row slotbox2" style="display: none;" id="slotdiv_<%=i %>">
+      <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="row">
+          <% for(var p in amslots[day]){ %>
+            <%if(amslots[day][p][2]=='none'){%>
+              <div class="col-lg-3 slotspace2" style="margin-top: 10px; max-height: 100px">
+                <button onclick="ChangeColorLight('<%= day %>',<%=i%>,'<%= amslots[day][p][0] %>')" class="btn col-lg-12 addedslotsbuttons3" id="<%= day %>/<%= amslots[day][p][0] %>"> <h6 style="font-size: 12px;"><%=amslots[day][p][0]%> - <%=amslots[day][p][1]%> </h6></button>
+              </div>
+            <%} else{%>
+              <div class="col-lg-3 slotspace2" style="margin-top: 10px; max-height: 100px">
+                <button onclick="ChangeColorDark('<%= day %>', <%= i %>, '<%= amslots[day][p][0] %>')" class="btn col-lg-12 addedslotsbuttons2" id="<%= day %>/<%= amslots[day][p][0] %>"> <h6 style="font-size: 12px;"><%=amslots[day][p][0]%> - <%=amslots[day][p][1]%> </h6></button>
+              </div>
+            <%} %>
+          <%}%>
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+  </div>
+
+  <%});%>
+  <button onclick="SaveSlots()" class="btn btn-block submitslotbutton saveslotbutton" name="button">Save Details For Whole Year</button>
+
+        </div>
+
+        <script type="text/javascript">
+
+
+        function ChangeColorDark(day, i, x){
+          // console.log("Dark");
+          const id = day + "/" + x;
+          const id2 = day + "/" + i;
+          const temp = document.getElementById(id);
+          // const count = document.getElementById(id2);
+          // console.log(count);
+          const cls = [temp.classList[0], temp.classList[1], temp.classList[2]];
+          if(cls.includes("addedslotsbuttons2")){
+            temp.classList.remove("addedslotsbuttons2");
+            temp.classList.add("addedslotsbuttons3");
+          }else{
+            temp.classList.remove("addedslotsbuttons3");
+            temp.classList.add("addedslotsbuttons2");
+          }
+          const countvariable = document.getElementById(id2);
+          const selector = '#slotdiv_'+i+' '+'.addedslotsbuttons3';
+          countvariable.innerHTML = countvariable.innerHTML.split(':')[0]+': '+document.querySelectorAll(selector).length;
+        }
+
+        function ChangeColorLight(day, i, x){
+          // console.log("Light");
+          const id = day + "/" + x;
+          const id2 = day + "/" + i;
+          const temp = document.getElementById(id);
+          const cls = [temp.classList[0], temp.classList[1], temp.classList[2]];
+          if(cls.includes("addedslotsbuttons3")){
+            temp.classList.remove("addedslotsbuttons3");
+            temp.classList.add("addedslotsbuttons2");
+          }else{
+            temp.classList.remove("addedslotsbuttons2");
+            temp.classList.add("addedslotsbuttons3");
+          }
+          const countvariable = document.getElementById(id2);
+          const selector = '#slotdiv_'+i+' '+'.addedslotsbuttons3';
+          countvariable.innerHTML = countvariable.innerHTML.split(':')[0]+': '+document.querySelectorAll(selector).length;
+        }
+
+        function SaveSlots(){
+          const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+          var timeslots = {}
+          days.forEach((item, i) => {
+            const temp2 = [];
+            const selector = '#slotdiv_'+i+' '+'.addedslotsbuttons3';
+            // const temp = document.querySelectorAll(selector);
+            const temp = [...document.querySelectorAll(selector)];
+            temp.forEach((item, i) => {
+              const item2 = {"slot": item.id.split('/')[1], "status": "Available"};
+              temp2.push(item2);
+            });
+            timeslots[item]=temp2;
+          });
+          var timeslotdata={ slots: [{"day":"Monday","timeslots":timeslots["Monday"]},{"day":"Tuesday","timeslots":timeslots["Tuesday"]},{"day":"Wednesday","timeslots":timeslots["Wednesday"]},{"day":"Thursday","timeslots":timeslots["Thursday"]},{"day": "Friday", "timeslots": timeslots["Friday"]}, {"day": "Saturday", "timeslots": timeslots["Saturday"]}, {"day": "Sunday", "timeslots": timeslots["Sunday"]} ]};
+
+          console.log(timeslotdata);
+          superagent.put("/saveslot").send(jQuery.param(timeslotdata)).then((response)=>{
+            console.log(document.URL);
+            // window.location = 'http://localhost:5000/'+'homescreen';
+            window.location = 'https://mentorweb-fae19.web.app/'+'homescreen';
+          }).catch((error)=>{console.log(error);});
+
+        }
+
+          function flip(i) {
+            var temp = "slotdiv_" + i;
+            var temp2 = "detaildiv_" + i;
+            var T = document.getElementById(temp),
+              displayValue = "";
+            if (T.style.display == "")
+              displayValue = "none";
+            T.style.display = displayValue;
+            T = document.getElementById(temp2);
+            // console.log(T);
+            displayValue = "";
+            if (T.style.display == "")
+              displayValue = "none";
+
+            var tempid = "up/" + i;
+            var P = document.getElementById(tempid);
+            displayValue = "";
+            if (P.style.display == "")
+              displayValue = "none";
+            P.style.display = displayValue;
+
+            var tempid2 = "bottom/" + i;
+            var Q = document.getElementById(tempid2);
+            displayValue = "";
+            if (Q.style.display == "")
+              displayValue = "none";
+            Q.style.display = displayValue;
+          }
+        </script>
+
+        <%- include('partials/footer') %>

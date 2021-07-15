@@ -1,0 +1,327 @@
+<%- include('partials/header') %>
+
+<div class="col-9 col-lg-9 col-sm-12 col-md-12 sessionspace" style="">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h4 class="slotheading paddingleft marginleft">Payment</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4 paymenthome">
+      Total Pay Out: <div class="paymenthomeblue"> <%= total_payout %> </div>
+    </div>
+    <div class="col-lg-4 paymenthome">
+      Payment Pending: <div class="paymenthomeblue"> <%= pending_payout %> </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h4 class="slotheading paddingleft marginleft">Upcoming Sessions</h4>
+    </div>
+  </div>
+
+  <div class="space">
+
+    <%var count =0;if(scheduledSessions){scheduledSessions.forEach(function(item, i){console.log(i);if(i<6){if(item){count+=1;%>
+
+    <div class="card marginleft margintop col-lg-4 col-md-4 col-sm-4">
+      <div class="col-lg-12 imagesspace">
+        <div class="row">
+          <div class="col-lg-4 col-sm-4 col-md-4">
+            <% const imgurl = item['mentee'].photoUrl ? item['mentee'].photoUrl : '/logo.jpeg'%>
+            <img src="<%= imgurl %>" alt="" class="homescreenimgsrc" style="">
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-8 homepageslot margintop">
+            <div class="nametext marginbottom">
+              <%= item["mentee"].name %>
+            </div>
+            <div class="marginbottom">
+              Session Id: <div class="coloredtext"> <%= item["id"] %> </div>
+            </div>
+            <div class="marginbottom">
+              <%for(var i=0;i<item['mentor'].rating;i++){%>
+              <span style="font-size:125%;color:#F7A305;">&starf;</span>
+              <%}%>
+              <%for(var i=0;i<(5-item['mentor'].rating);i++){%>
+              <span style="font-size:125%;color:#FDDD9F;">&starf;</span>
+              <%}%>
+            </div>
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-12 col-sm-12 col-md-12  textspace">
+        <div class="row marginbottom">
+          <div class="col-lg-5 col-md-5 col-sm-5 homepagelefttext">
+            Rate
+          </div>
+          <div class="col-lg-1 col-md-1 col-sm-1">
+            :
+          </div>
+          <div class="col-lg-5 col-md-5 col-sm-5">
+            <div class="coloredtext homepagerighttext"> <%= item['mentor'].callRatePerMin %>
+            </div>
+          </div>
+        </div>
+        <div class="row marginbottom">
+          <div class="col-lg-5 col-sm-5 col-md-5 homepagelefttext">
+            Order Amount
+          </div>
+          <div class="col-lg-1 col-sm-1 col-md-1">
+            :
+          </div>
+          <div class="col-lg-5 col-sm-5 col-md-5">
+            <div class="coloredtext homepagerighttext"> <%= item['mentor'].callRatePerMin %> </div>
+          </div>
+        </div>
+        <div class="row marginbottom">
+          <div class="col-lg-5 col-sm-5 col-md-5 homepagelefttext">
+            Order Status
+          </div>
+          <div class="col-lg-1 col-md-1 col-sm-1">
+            :
+          </div>
+          <div class="col-lg-5 col-sm-5 col-md-5">
+            <div class="coloredtext homepagerighttext"> <%= item['status'] %> </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12 col-sm-12 col-md-12  textspace2">
+        <% if(item['status']=="ACCEPTED"){ %>
+          <a href="/session/CANCELLED/<%= item['id'] %>"><button class="btn col-lg-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a>
+          <button onclick="Reschedule(<%=count%>)" class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="button" name="button" style="max-width: 100px; width: 90px;">Reschedule</button>
+          <div class="row" style="position: relative; left: 8rem;">
+            <div id="TestsDiv<%= count %>" style="display:none;">
+              <% const timeZoneA = item['timeZone'].split(' ')[0]; const timeZoneB = item['timeZone'].split(' ')[1]; const durationA = item['duration'].split(' ')[0];const durationB = item['duration'].split(' ')[1]; %>
+              <form class="" action="/reschedulesession2/<%= item['mentor'].id %>/<%= item['mentee'].id %>/<%= timeZoneA %>/<%= timeZoneB %>/<%= durationA %>/<%= durationB %>/<%= item['sessionAmout'] %>/<%= item['currency'] %>/<%= item['id'] %>"
+                method="post">
+                <input type="datetime-local" class="form-control" name="editstartdatetime" style="position: relative; right: 0; top: 10px; max-width: 70px;" placeholder=""></input>
+                <button class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="submit" name="button" style="position: relative; left: 5rem; top: -1rem;">Save</button>
+              </form>
+            </div>
+          </div>
+        <% } else if (item["status"]=="STARTED"){ %>
+          <a href="/joincall/<%= item['id'] %>"><button class="btn col-lg-12 actionbutton joinbutton" type="button" name="button">Join</button></a>
+        <% } %>
+      </div>
+
+
+    </div>
+
+    <%}}});}%>
+
+  </div>
+
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h4 class="slotheading paddingleft marginleft">ToDo</h4>
+    </div>
+  </div>
+
+  <div class="row" style="margin-bottom: 1%;">
+    <div class="col-lg-12 paymenthome">
+      <div class="">
+        <%= todomsg %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <h4 class="slotheading paddingleft marginleft">No Of Sessions</h4>
+    </div>
+  </div>
+
+  <div class="">
+    <div class="chart-container col-lg-8" style="position: relative; margin-top: 2%; margin-left: 2%;" id="monthchart">
+      <canvas id="chartmonth" style=""></canvas>
+    </div>
+
+    <div class="chart-container col-lg-8" style="position: relative; margin-top: 2%; margin-left: 2%;" id="yearchart">
+      <canvas id="chartyear" style="display: none;"></canvas>
+    </div>
+
+    <div class="chart-container col-lg-8" style="position: relative; margin-top: 2%; margin-left: 2%;" id="weekchart">
+      <canvas id="chartweek" style="display: none;"></canvas>
+    </div>
+
+    <div class="row" style="margin-bottom: 1%;">
+      <div class="col-lg-8 col-sm-2 col-md-2">
+
+      </div>
+      <div class="col-lg-1 col-sm-1 col-md-3" style="margin-right: 1%">
+        <button type="button" name="button" onclick="displayweekly()" class="btn-primary homepagebtn">Weekly</button>
+      </div>
+      <div class="col-lg-1 col-sm-1 col-md-3" style="margin-right: 1%">
+        <button type="button" name="button" onclick="displaymonthly()" class="btn-primary homepagebtn">Monthly</button>
+      </div>
+      <div class="col-lg-1 col-sm-1 col-md-1" style="margin-right: 1%">
+        <button type="button" name="button" onclick="displayyearly()" class="btn-primary homepagebtn">Yearly</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+</div>
+
+<script type="text/javascript">
+  function displaymonthly() {
+    var monthid = "chartmonth";
+    var monthchart = document.getElementById(monthid);
+    monthchart.style.display = "block";
+    var yearid = "chartyear";
+    var yearchart = document.getElementById(yearid);
+    yearchart.style.display = "none";
+    var weekid = "chartweek";
+    var weekchart = document.getElementById(weekid);
+    weekchart.style.display = "none";
+  }
+
+  function displayyearly() {
+    var monthid = "chartmonth";
+    var monthchart = document.getElementById(monthid);
+    monthchart.style.display = "none";
+    var yearid = "chartyear";
+    var yearchart = document.getElementById(yearid);
+    yearchart.style.display = "block";
+    var weekid = "chartweek";
+    var weekchart = document.getElementById(weekid);
+    weekchart.style.display = "none";
+  }
+
+  function displayweekly() {
+    var monthid = "chartmonth";
+    var monthchart = document.getElementById(monthid);
+    monthchart.style.display = "none";
+    var yearid = "chartyear";
+    var yearchart = document.getElementById(yearid);
+    yearchart.style.display = "none";
+    var weekid = "chartweek";
+    var weekchart = document.getElementById(weekid);
+    weekchart.style.display = "block";
+  }
+
+
+  var labels = "<%- months %>".split(',');
+  var monthly = "<%- monthly %>".split(',');
+  var labels2 = "<%- years %>".split(',');
+  var yearly = "<%- yearly %>".split(',');
+
+  // var background_1 = bar_ctx.createLinearGradient(0, 0, 0, 600);
+  // background_1.addColorStop(0, #007CC2);
+  // background_1.addColorStop(1, #01517E);
+
+  var backgroundColor = [];
+  // var backgroundColor1 = [];
+  // var backgroundColor2 = [];
+  // var bar_ctx = document.getElementById('chartyear').getContext('2d');
+  // var background_1 = bar_ctx.createLinearGradient(0, 0, 0, 600);
+  // background_1.addColorStop(0, #007CC2);
+  // background_1.addColorStop(1, # 01517E);
+  // var bar_ctx2 = document.getElementById('chartmonth').getContext('2d');
+  // var background_2 = bar_ctx.createLinearGradient(0, 0, 0, 600);
+  // background_2.addColorStop(0, #007CC2);
+  // background_2.addColorStop(1, # 01517E);
+
+  for (var i = 0; i < labels.length; i++) {
+    backgroundColor.push('rgb(0, 124, 194, 1)');
+    // backgroundColor1.push(background_1);
+    // backgroundColor2.push(background_2)
+    // backgroundColor.push(background_1);
+  }
+
+
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'No Of Sessions',
+      backgroundColor: backgroundColor,
+      data: monthly,
+      borderRadius: 100,
+      borderWidth: 1,
+      barThickness: 20,
+    }]
+  };
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {
+      responsive: true,
+      scales: {
+        xAxes: [{
+          gridLines: {
+            display: false
+          }
+        }],
+        yAxes: [{
+          gridLines: {
+            display: false
+          }
+        }]
+      }
+    }
+  }
+
+  const data2 = {
+    labels: labels2,
+    datasets: [{
+      label: 'No Of Sessions',
+      backgroundColor: backgroundColor,
+      data: yearly,
+      borderRadius: 100,
+      borderWidth: 1,
+      barThickness: 20,
+    }]
+  };
+  const config2 = {
+    type: 'bar',
+    data: data2,
+    options: {
+      responsive: true,
+      scales: {
+        xAxes: [{
+          gridLines: {
+            display: false
+          }
+        }],
+        yAxes: [{
+          gridLines: {
+            display: false
+          }
+        }]
+      }
+    }
+  }
+
+  var monthChart = new Chart(
+    document.getElementById('chartmonth'),
+    config
+  );
+  var yearChart = new Chart(
+    document.getElementById('chartyear'),
+    config2
+  );
+
+  function Reschedule(i) {
+    var temp = "TestsDiv" + i;
+    console.log(temp);
+    console.log(i);
+    var L = document.getElementById(temp);
+    if (L.style.display == "none") {
+      L.style.display = "block";
+    } else {
+      L.style.display = "none";
+    }
+  }
+</script>
+
+<%- include('partials/footer') %>

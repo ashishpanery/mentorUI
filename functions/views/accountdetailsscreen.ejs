@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dialaway</title>
+  <script src="https://kit.fontawesome.com/f8d2af9837.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-analytics.js"></script>
+  <script src='https://meet.jit.si/external_api.js'></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <div class="container screen">
+    <div class="row">
+      <div class="col topbar">
+        <h1><a href="/homescreen" class="btn-light btn-lg btn-outline-light homebutton">Home</a></h1>
+      </div>
+    </div>
+    <hr>
+
+    <div class="row" style="padding: 1%; margin-right: 1%;">
+      <div class="col-lg-3">
+        <a href="/mentordetailsscreen" class="btn btn-lg btn-block profilebuttons">
+          <p class="paddzero">Account details</p>
+        </a>
+        <a href="/accountdetailsscreen" class="btn btn-lg btn-block profilebuttons activebutton" style="margin-left: 2%;">
+          <p class="paddzero">Payment Details</p>
+        </a>
+        <a href="/experiencedetailsscreen" class="btn btn-lg btn-block profilebuttons">
+          <p class="paddzero">Experience Profile</p>
+        </a>
+        <a href="/educationdetailsscreen" class="btn btn-lg btn-block profilebuttons">
+          <p class="paddzero">Educational Profile</p>
+        </a>
+        <a href="/reviewsscreen" class="btn btn-lg btn-block profilebuttons">
+          <p class="paddzero">Reviews</p>
+        </a>
+
+      </div>
+      <div class="vl">
+        <%# this is for shadow %>
+      </div>
+
+
+      <div class="col-lg-8">
+
+        <div class="pandiv">
+
+          <%const panimgsrc = (imgsrc=='')?'/logo.jpeg':imgsrc;%>
+          <img src="<%= panimgsrc %>" alt="" class="circlepansrc" name="pancircleimgsrc">
+          <form method="POST" action="/upload-pan-pic" enctype="multipart/form-data">
+            <div class="form-row">
+              <div class="col-lg-12 marginright">
+                <div class="form-group">
+                  <div>
+                    <button onclick="document.getElementById('getImg').click()" class="btn panimgbutton"><i class="fas fa-camera"></i></button>
+                    <input type="file" name="profile_pic" id="getImg" style="display: none" />
+                  </div>
+                  <div>
+                    <button onclick="document.getElementById('upload').click()" class="btn btn-block uploadbtn">Upload PAN Card Pic</i></button>
+                    <%# <input type="file" name="profile_pic" class="btn" id="getImg"style="display: none" /> %>
+                    <input type="submit" name="btn_upload_profile_pic" value="Upload" id="upload" style="display: none" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </form>
+
+        </div>
+
+        <br><br><br><br>
+
+        <form class="" action="/savepaymentdetails" method="post" style="padding: 3%;">
+
+          <div class="form-row">
+            <div class="col-lg-5 marginright">
+              <div class="form-group">
+                <label for="text">Payment Mode</label> <br>
+                <input type="text" class="form-control" name="paymentmode"></input>
+              </div>
+            </div>
+            <div class="col-lg-5 marginright">
+              <div class="form-group">
+                <label for="text">Account Holder Full Name</label> <br>
+                <input type="text" class="form-control" name="accountholderfullname">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-lg-5 marginright">
+              <div class="form-group">
+                <label for="text">Account Number</label> <br>
+                <input type="text" class="form-control" name="accountnumber"></input>
+              </div>
+            </div>
+            <div class="col-lg-5 marginright">
+              <div class="form-group">
+                <label for="text">IFSC Code</label> <br>
+                <input type="text" class="form-control" name="ifsccode">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-lg-5 marginright">
+              <div class="form-group">
+                <label for="text">PAN Card Number</label> <br>
+                <input type="text" class="form-control" name="pancard"></input>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="col-lg-12 marginright">
+              <div class="form-group">
+                <button type="submit" class="btn btn-block" style="color: white;">Update Payment Details</button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+
+
+      </div>
+      <div class="vl">
+        <%# this is for shadow %>
+      </div>
+
+
+    </div>
+
+    <script type="text/javascript">
+      document.getElementsByName("paymentmode")[0].defaultValue = '<%- data["paymentProfile"].paymentMode%>';
+      document.getElementsByName("accountholderfullname")[0].defaultValue = '<%- data["paymentProfile"].accountHolderFullName%>';
+      document.getElementsByName("accountnumber")[0].defaultValue = '<%- data["paymentProfile"].accountNumber%>';
+      document.getElementsByName("accountnumber")[0].defaultValue = '<%- data["paymentProfile"].accountNumber%>';
+      document.getElementsByName("ifsccode")[0].defaultValue = '<%- data["paymentProfile"].ifscCode%>';
+      document.getElementsByName("pancard")[0].defaultValue = '<%- data["paymentProfile"].panCard%>';
+      // document.getElementsByName("pancircleimgsrc")[0].src='<%- data["paymentProfile"].panPhotoUrl%>';
+    </script>
+
+</body>
+
+</html>

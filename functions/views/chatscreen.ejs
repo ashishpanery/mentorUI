@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dialaway</title>
+  <script src="https://kit.fontawesome.com/f8d2af9837.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-analytics.js"></script>
+  <script src='https://meet.jit.si/external_api.js'></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+  <!-- Firebase App -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-app.js"></script>
+  <!-- Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/7.16.1/firebase-firestore.js"></script>
+  <%# <script src="/__/firebase/8.6.2/firebase-app.js"></script>
+<script src="/__/firebase/8.6.2/firebase-firestore.js"></script>
+<script src="/__/firebase/8.6.2/firebase-storage.js"></script>
+<script src="/__/firebase/8.6.2/firebase-messaging.js"></script> %>
+
+  <div class="chatbox col-lg-12">
+    <div onload="scrollToBottom()" id="messagebox" class="col-lg-12 chatscrollable">
+      <%documents.forEach(function(item, i){%>
+
+      <% if(item['sender'] == mentorId){ %>
+      <div class="col-lg-4 col-md-5 col-sm-5 align-self-end sent">
+        <h5 class=""><%= item['text'] %></h5>
+      </div>
+      <% } else{ %>
+      <div class="col-lg-4 col-md-5 col-sm-5  align-self-start received">
+        <h5 class=""><%= item['text'] %></h5>
+      </div>
+      <% } %>
+
+
+      <%}) %>
+    </div>
+
+    <br><br>
+
+    <div class="messageTypeSpace col-lg-12">
+
+      <form id="ideal_form" class="form-row" action="/storemessage/<%= mentorId %>/<%= menteeId %>" method="post">
+        <div class="form-group col-lg-8 col-md-8 col-sm-8">
+          <input class="form-control" id="newmessage" type="textarea" name="newmessage" value="">
+        </div>
+        <div class="form-group col-lg-2 col-md-2 col-sm-2">
+          <button id="sendButton" class="addmessagebutton" type="submit" name="button"><i class="far fa-paper-plane fa-2x"></i></button>
+        </div>
+      </form>
+      <div class="input-group">
+
+      </div>
+
+
+
+    </div>
+  </div>
+  <div class="vl">
+    <%# this is for shadow %>
+  </div>
+
+
+  <script type="text/javascript" type="module">
+    var firebaseConfig = {
+      apiKey: "AIzaSyBdEfLrxJZlrzrG_O5py-qZdvli79d4buc",
+      authDomain: "dialaway-65fc9.firebaseapp.com",
+      projectId: "dialaway-65fc9",
+      storageBucket: "dialaway-65fc9.appspot.com",
+      messagingSenderId: "173723884462",
+      appId: "1:173723884462:web:5608b0378a861156fcc63f",
+      measurementId: "G-78YWSZFE8D"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    // firebase.analytics();
+    const db = firebase.firestore();
+
+    const mentorId = '<%- mentorId %>';
+    const menteeId = '<%- menteeId %>';
+    console.log(mentorId);
+    console.log(menteeId);
+
+    // $('#sendButton').click(function() {
+    //   const message = document.getElementById("newmessage").value;
+    //   const url = '/storemessage/' + mentorId + "/" + menteeId + "/" + message;
+    //   axios.get(url).then(function(response) {
+    //     console.log(response.data);
+    //     var page_url = $(this).prop('href');
+    //     console.log(page_url);
+    //     location.reload();
+    //   }).catch((error) => {
+    //     console.log(error);
+    //   });
+    // });
+    function scrollToBottom() {
+      $('#messagebox').scrollTop($('#messagebox')[0].scrollHeight - $('#messagebox')[0].clientHeight);
+    }
+
+    db.collection('messages').doc(mentorId).collection(menteeId)
+      .onSnapshot((doc) => {
+        // console.log("Current data: ", doc);
+        const url2 = "/loadmessages/" + mentorId + "/" + menteeId;
+        axios.get(url2).then(function(response) {
+          // console.log(response.data);
+          $("#messagebox").load(location.href + " #messagebox");
+          document.getElementById("newmessage").value = "";
+
+        }).catch((error) => {
+          console.log(error);
+        });
+      });
+
+    $(document).ready(function() {
+      $(function() {
+        $('#ideal_form').submit(function(e) {
+          e.preventDefault();
+          var form = $(this);
+          const message = document.getElementById("newmessage").value;
+          const url = '/storemessage/' + mentorId + "/" + menteeId + "/" + message;
+          axios.get(url).then(function(response) {
+            // console.log(response.data);
+            $("#messagebox").load(location.href + " #messagebox");
+            document.getElementById("newmessage").value = "";
+
+          }).catch((error) => {
+            console.log(error);
+          });
+        });
+      });
+    });
+
+    // $(document).ready(function(){
+    //       $(function(){
+    //       $('#ideal_form').submit(function(e){
+    //               const message = document.getElementById("newmessage").value;
+    //               e.preventDefault();
+    //               var form = $(this);
+    //               var post_url = form.attr('action')+"/newmessage";
+    //               var post_data = form.serialize();
+    //               // $('#loader3', form).html('<img src="../../images/ajax-loader.gif" />       Please wait...');
+    //               $.ajax({
+    //                   type: 'GET',
+    //                   url: post_url,
+    //                   data: post_data,
+    //                   success: function(msg) {
+    //                       $(form).fadeOut(800, function(){
+    //                           form.html(msg).fadeIn().delay(2000);
+    //
+    //                       });
+    //                   }
+    //               });
+    //           });
+    //       });
+    //        });
+  </script>
+
+</body>
+
+</html>

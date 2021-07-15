@@ -1,0 +1,282 @@
+const authToken = user.Aa;
+
+<% if(item["status"]=="ACCEPTED"){ %>
+  <% console.log(i);console.log(count);console.log("==========") %>
+<div class="marginbottom">
+    <a href="/session/CANCELLED/<%= item['id'] %>"><button class="btn col-lg-6 actionbutton cancelbutton" type="button" name="button">Cancel</button></a>
+    <button onclick="Reschedule(<%=count%>)" class="btn col-lg-6 actionbutton reschedulebutton" id="reschedule" type="button" name="button">Reschedule</button>
+    <div id="TestsDiv<%= count %>" style="display:none;">
+      <% const timeZoneA = item['timeZone'].split(' ')[0]; const timeZoneB = item['timeZone'].split(' ')[1]; const durationA = item['duration'].split(' ')[0];const durationB = item['duration'].split(' ')[1]; %>
+      <form class="" action="/reschedulesession/<%= item['mentor'].id %>/<%= item['mentee'].id %>/<%= timeZoneA %>/<%= timeZoneB %>/<%= durationA %>/<%= durationB %>/<%= item['sessionAmout'] %>/<%= item['currency'] %>/<%= item['id'] %>"
+        method="post">
+        <input type="datetime-local" class="form-control" name="editstartdatetime" style="position: relative; right: 0; top: 10px; max-width: 70px;" placeholder=""></input>
+        <button class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="submit" name="button" style="position: relative; right: 0; top: 10px;">Save</button>
+      </form>
+    </div>
+</div>
+</div>
+<% } %>
+
+
+
+<div class="card marginleft margintop col-lg-4 col-md-4 col-sm-4">
+  <div class="col-lg-12 imagesspace">
+    <div class="row">
+      <div class="col-lg-4 col-sm-4 col-md-4">
+        <img src="/logo.jpeg" alt="" class="circleimgsrc" style="">
+      </div>
+      <div class="col-lg-8 col-md-8 col-sm-8 homepageslot margintop">
+        <div class="nametext marginbottom">
+            Name Name Name
+        </div>
+        <div class="marginbottom">
+            Session Id:  <div class="coloredtext"> 60d0f0fece5b7b24adc6a83f </div>
+        </div>
+        <div class="marginbottom">
+          Contact Details:  <div class="coloredtext">9867878788</div>
+        </div>
+        <div class="marginbottom">
+          <span style="font-size:125%;color:#F7A305;">&starf;</span>
+          <span style="font-size:125%;color:#F7A305;">&starf;</span>
+          <span style="font-size:125%;color:#F7A305;">&starf;</span>
+          <span style="font-size:125%;color:#FDDD9F;">&starf;</span>
+          <span style="font-size:125%;color:#FDDD9F;">&starf;</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12  textspace">
+    <div class="row marginbottom">
+      <div class="col-lg-5 col-md-5 col-sm-5">
+        Rate
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1">
+        :
+      </div>
+      <div class="col-lg-5 col-md-5 col-sm-5">
+        <div class="coloredtext"> 10 </div>
+      </div>
+    </div>
+    <div class="row marginbottom">
+      <div class="col-lg-5 col-sm-5 col-md-5">
+        Order Amount
+      </div>
+      <div class="col-lg-1 col-sm-1 col-md-1">
+        :
+      </div>
+      <div class="col-lg-5 col-sm-5 col-md-5">
+        <div class="coloredtext"> 10 </div>
+      </div>
+    </div>
+    <div class="row marginbottom">
+      <div class="col-lg-5 col-sm-5 col-md-5">
+        Order Status
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-1">
+        :
+      </div>
+      <div class="col-lg-5 col-sm-5 col-md-5">
+        <div class="coloredtext"> Completed </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<% if(scheduledSessions){%>
+<section class="" id="testimonials">
+  <div id="testimonails-carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+
+      <%scheduledSessions.forEach(function(item, i){ if(item){%>
+
+      <%if(i==0){%>
+      <div class="carousel-item active container-fluid">
+        <div class="col-3"></div>
+        <div class="col-lg-8 col-md-12 col-sm-12 sessionitem">
+          <% const imgurl = item['mentee'].photoUrl ? item['mentee'].photoUrl : '/logo.jpeg'%>
+          <div class="col-lg-3 col-sn-3 col-md-3"><img src="<%= imgurl %>" alt="" class="circleimgsrc" style=""></div>
+        </div>
+        <div class="col-3"></div>
+      </div>
+      <%}else{%>
+      <div class="carousel-item container-fluid">
+        <div class="col-lg-3"></div>
+        <div class="col-lg-8 col-md-12 col-sm-12 sessionitem">
+          <% const imgurl = item['mentee'].photoUrl ? item['mentee'].photoUrl : '/logo.jpeg'%>
+          <div class="col-lg-3 col-sn-3 col-md-3"><img src="<%= imgurl %>" alt="" class="circleimgsrc" style=""></div>
+        </div>
+        <div class="col--lg-3"></div>
+      </div>
+      <%}%>
+
+    <%}});%>
+
+    </div>
+    <a class="carousel-control-prev" href="#testimonails-carousel" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#testimonails-carousel" role="button" data-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</section>
+
+<div class="row" style="margin-top: 2%;">
+  <%scheduledSessions.forEach(function(item, i){ if(item){if(i<4){%>
+  <div class="col-lg-3" style="background-color: #DFF4FF; margin-left: 1%; margin-top: 1%;">
+    <% const imgurl = item['mentee'].photoUrl ? item['mentee'].photoUrl : '/logo.jpeg'%>
+    <div class="col-lg-3 col-sn-3 col-md-3"><img src="<%= imgurl %>" alt="" class="circleimgsrc" style=""></div>
+  </div>
+  <div style="margin-right: 1%;"></div>
+  <%}}});%>
+</div>
+<% } %>
+
+
+<div class="row" style="margin-top: 2%;">
+  <%if(scheduledSessions!=[]){scheduledSessions.forEach((item, i) => { %>
+
+
+
+
+  <% });} %>
+
+<%# <a href="#" class="btn btn-secondary btn-lg dropdown-toggle profilesymbol2" data-toggle="dropdown"> %>
+<%# <i class="fas fa-user fa-1x"></i> %>
+
+<div class="col-lg-1 col-lg-1 col-md-1">
+  <a href="#" onclick="reversefip(<%=i %>)" id="up"><img src="/dropdownup.png" alt="" style="height: 30px; width: 30px;"></a>
+</div>
+
+<div class="row">
+  <div class="col-lg-5" style="margin-top: 3%;">
+    <div class="form-group">
+      <label for="password">Currency</label>
+      <select name="currency">
+        <% Object.entries(currency).forEach(item => { %>
+        <option value="<%= item[0] %>" selected="selected" label="<%= item[1] %>"><%= item[0] %></option>
+        <% }); %>
+      </select>
+    </div>
+  </div>
+  <div class="col-lg-1">
+  </div>
+  <div class="col-lg-5">
+    <div class="form-group">
+      <label for="text">Linkedin Profile Link</label>
+      <input type="text" class="form-control inputclass" name="linkedinprofile">
+    </div>
+  </div>
+  <div class="col-lg-1">
+  </div>
+</div>
+
+<div class="row" style="">
+  <div class="col-lg-11" style="margin-bottom: 1%;">
+    <h5 class="educationcompany">Company</h5>
+  </div>
+  <div class="col-lg-1">
+    <a href="#" style="align-self: flex-end;"><img src="/pencil.png" alt="" class="pencil"></a>
+  </div>
+</div>
+<div class="row" style="">
+  <div class="col-lg-11">
+    <h5 class="educationdesignation">Designation</h5>
+  </div>
+</div>
+<div class="row" style="margin-bottom: 1%;">
+  <div class="col-lg-6">
+    <h5 class="educationlocation">Location</h5>
+  </div>
+  <div class="col-lg-6">
+    <h5 class="educationduration">Duration</h5>
+  </div>
+</div>
+<hr>
+
+
+//=============================================================================================================================================================================
+
+
+<div class="row">
+  <div class="col-lg-3 col-sn-3 col-md-3"><img src="<%= item['mentee'].photoUrl %>" alt="" class="circleimgsrc" style=""></div>
+  <div class="col-lg-5 col-sm-4 col-md-4">
+    <h6 class="menteename" style="margin-top: 2%">
+      <%= item["mentee"].name %>
+    </h6>
+    <div class="row">
+      <div class="col-4">
+        <h6 class="smallboldtext">
+          User Id:
+        </h6>
+      </div>
+      <div class="col-4 leftzeropad rightzeropad">
+        <h6 class="smalltext">
+          <%= item['id'] %>
+        </h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <h6 class="smallboldtext">
+          Status:
+        </h6>
+      </div>
+      <div class="col-4 leftzeropad rightzeropad">
+        <h6 class="smalltext">
+          <%= item["status"]=="REQUEST_PENDING"? "Pending": item["status"] %>
+        </h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <h6 class="smallboldtext">
+          Date:
+        </h6>
+      </div>
+      <div class="col-5 leftzeropad rightzeropad">
+        <h6 class="smalltext">
+          <%= item["startDate"].split("-").reverse().join("-") %>
+        </h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <h6 class="smallboldtext">
+          Time:
+        </h6>
+      </div>
+      <div class="col-5 leftzeropad rightzeropad">
+        <h6 class="smalltext">
+          <%= item["startTime"] %>
+        </h6>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-sm-12 col-md-12 sessionactionsspace">
+    <%  if(item["status"]=="REQUEST_PENDING"){ %>
+    <div class="row"><a href="/session/ACCEPTED/<%= item['id'] %>"><button class="btn col-lg-12 col-md-12 col-sm-12 actionbutton acceptbutton" type="button" name="button">Accept</button></a></div>
+    <div class="row"><a href="/session/CANCELLED/"+${ item['id']}><button class="btn col-lg-12 col-md-12 col-sm-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a></div>
+    <% } %>
+
+    <%  if(item["status"]=="ACCEPTED"){ %>
+    <div class="row"><a href="/joincall/"+${ item['id'] }><button class="btn col-lg-12 actionbutton joinbutton" type="button" name="button">Join</button></a></div>
+    <div class="row"><a href="/session/CANCELLED/"+${item['id'] }><button class="btn col-lg-12 actionbutton cancelbutton" type="button" name="button">Cancel</button></a></div>
+    <div class="row"><button onclick=`Reschedule(${i})` class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="button" name="button">Reschedule</button>
+      <div id="TestsDiv"+${i} style="display:none;">
+        ${const timeZoneA = item['timeZone'].split(' ')[0]; const timeZoneB = item['timeZone'].split(' ')[1]; const durationA = item['duration'].split(' ')[0];const durationB = item['duration'].split(' ')[1];}
+        <form class="" action="/reschedulesession/${item['mentor'].id }/${ item['mentee'].id }/${ timeZoneA }/${ timeZoneB }/${ durationA }/${ durationB }/${ item['sessionAmout']}/${ item['currency'] }/${ item['id'] }"
+          method="post">
+          <input type="datetime-local" class="form-control" name="editstartdatetime" style="position: relative; right: 0; top: 10px; max-width: 70px;" placeholder=""></input>
+          <button class="btn col-lg-12 actionbutton reschedulebutton" id="reschedule" type="submit" name="button" style="position: relative; right: 0; top: 10px;">Save</button>
+        </form>
+      </div>
+    </div>
+
+    <% } %>
+
+  </div>
+</div>

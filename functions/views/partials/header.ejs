@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dialaway</title>
+  <script src="https://kit.fontawesome.com/f8d2af9837.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200&display=swap" rel="stylesheet">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.5.0/firebase-analytics.js"></script>
+  <script src='https://meet.jit.si/external_api.js'></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=Array.from,Promise,Symbol,Object.setPrototypeOf,Object.getOwnPropertySymbols,Set"></script>
+  <script src="https://cdn.jsdelivr.net/npm/superagent"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+  <!-- <nav class="navbar navbar-expand-lg navbar-dark bluecolorsection"> -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="/homescreen">
+      <img src="/upsynklogo.png" alt="LOGO" class="logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link navbartext" href="/homescreen">
+            <div class="navbartext">
+              Home
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navbartext" href="#">
+            <div class="navbartext">
+              Services
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navbartext" href="#">
+            <div class="navbartext">
+              Industries
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navbartext" href="#">
+            <div class="navbartext">
+              Consult
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link navbartext" href="#">
+            <div class="navbartext">
+              Become Mentor
+            </div>
+          </a>
+        </li>
+        <li class="nav-item">
+          <div class="dropdown">
+
+            <a href="/homescreen" class="dropdown-toggle profilesymbol2" data-toggle="dropdown">
+              <% var imgsrc = "/personicon.png"; var found=0; if(imgLink){imgsrc = imgLink; found=1;} %>
+              <!-- if(imgLink){imgsrc = imgLink;}  -->
+              <% console.log(imgLink);  %>
+              <%if(found==1){%>
+              <img src="<%= imgsrc %>" class="icon" alt="" style="border-radius: 50%; width: 4rem; height: 3rem;">
+              <%} else{%>
+              <img src="<%= imgsrc %>" class="icon" alt="">
+              <%}%>
+
+
+            </a>
+            <div class="dropdown-menu" style="position: absolute; right: 10px;">
+              <a class="dropdown-item" href="/mentordetailsscreen">Profile</a>
+              <a class="dropdown-item" href="/settings">Settings</a>
+              <a class="dropdown-item" href="/logout">Logout</a>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <hr style="margin-top: 0px;">
+
+  <div class="container">
+    <div class="row lightbluecolor">
+      <div class="col-3 col-lg-3 col-sm-3 col-md-3 sidebar">
+
+        <div class="row">
+          <div class="col-lg-2 rightzeropad">
+            <a href="/homescreen"><img src="/homeicon.png" class="icon" alt=""></a>
+          </div>
+          <div class="col-lg-10 topzeromargin">
+            <div>
+              <h5 class="bluetext">Home</h5>
+            </div>
+            <a href="/homescreen">
+              <div class="subtexts">View Dashboard</div>
+            </a>
+            <!-- <div class="subtexts">Upcoming Sessions</div>
+            <div class="subtexts">About Us</div>
+            <div class="subtexts">Suggestions</div> -->
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-2 rightzeropad">
+            <a href="/accountdetailsscreen"><img src="/paymenticon.png" class="icon" alt=""></a>
+          </div>
+          <div class="col-lg-10 topzeromargin">
+            <div>
+              <h5 class="bluetext">Payment</h5>
+            </div>
+            <a href="/accountdetailsscreen">
+              <div class="subtexts">Payment Ledger</div>
+            </a>
+            <!-- <div class="subtexts">Payment History</div> -->
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-2 rightzeropad">
+            <a href="/allsessionsscreen"><img src="/paymenticon.png" class="icon" alt=""></a>
+          </div>
+          <div class="col-lg-10 topzeromargin">
+            <div>
+              <h5 class="bluetext">All Sessions</h5>
+            </div>
+            <a href="/allsessionsscreen">
+              <div class="subtexts">View your Sessions</div>
+            </a>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-2 rightzeropad">
+            <a href="/timeslotsscreen"><img src="/clockicon.png" class="icon" alt=""></a>
+          </div>
+          <div class="col-lg-8 topzeromargin">
+            <div>
+              <h5 class="bluetext">Timeslot</h5>
+            </div>
+            <a href="/timeslotscreen">
+              <div class="subtexts">Book Timeslot</div>
+            </a>
+            <!-- <div class="subtexts">Cancelled Timeslot</div> -->
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-2 rightzeropad">
+            <img src="/eventsicon.png" class="icon" alt="">
+          </div>
+          <div class="col-lg-8 topzeromargin">
+            <div>
+              <h5 class="bluetext">Events</h5>
+            </div>
+            <a href="/homescreen">
+              <div class="subtexts">Registered Events</div>
+            </a>
+            <!-- <div class="subtexts">All Events</div> -->
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-lg-2 rightzeropad">
+            <img src="/ordericon.png" class="icon" alt="">
+          </div>
+          <div class="col-lg-8 topzeromargin">
+            <div>
+              <h5 class="bluetext">Order History</h5>
+            </div>
+            <a href="/homescreen">
+              <div class="subtexts">Completed</div>
+            </a>
+            <!-- <div class="subtexts">Cancelled</div> -->
+          </div>
+        </div>
+
+      </div>
