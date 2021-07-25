@@ -1,0 +1,174 @@
+<%- include('partials/header') %>
+
+
+<div class="col-8 col-lg-8 col-sm-12 col-md-12 slotsspace" id="slotspaces">
+  <h4 class="slotheading">Your Availablity and timeslots</h4>
+  <p class="slotsubheading">You will be spending 30 Mins bi-weekly sessions with each mentee.</p>
+
+  <% const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"] %>
+  <h5 class="slotheading">I am free on</h5>
+  <div class="col-lg-12 greydiv" id="greydiv">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="row">
+          <%# <h6 class="slotheading" style="margin-top: 2%;">Select Day</h6> %>
+          <%# hello %>
+          <div class="col-lg-12">
+            <h6 class="slotheading" style="margin-top: 2%;">Select Day</h6>
+            <div class="dropdown" id="days">
+              <button class="btn btn-secondary dropdown-toggle shadow-none col-lg-8 slotbutton" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= selectedday %>
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="daylist">
+                <% days.forEach((day, i) => {%>
+                <a class="dropdown-item" href="" id="active"><%= day %></a>
+                <% }); %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-lg-12">
+            <h6 class="slotheading" style="margin-top: 2%;">Select TimeSlot</h6>
+            <div class="dropdown" id="slots">
+
+              <button class="btn btn-secondary dropdown-toggle shadow-none col-lg-8 slotbutton" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Time Slots
+              </button>
+              <div class="dropdown-menu scrollable2 col-lg-12" id="daylist2" aria-labelledby="dropdownMenuButton1" style="width: 250px;">
+                <%amslots.forEach((slot, i) => { %>
+                <% if(slot['display']=="none"){console.log("it was none"); %>
+                <a id="choosedslot" class="dropdown-item disabled" style="background-color: #F2F2F2" href=""><%= slot['start'] %> - <%= slot['end'] %></a>
+                <% }else{ %>
+                <a class="dropdown-item" href=""><%= slot['start'] %> - <%= slot['end'] %></a>
+                <% } %>
+                <%});%>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%# grey div ended %>
+  <div class="" id="heading">
+    <h6 class="slotheading" style="">The slots you selected on <%= selectedday %> are:</h6>
+  </div>
+  <div class="row slotlightgreen scrollable3" style="margin-top: 2%;padding-top: 0; margin-left: 2px; margin-right: 2px; overflow-x: hidden">
+    <div class="row" style="" id="selectedslots">
+      <%# <div class=" scrollable"> %>
+      <%amslots.forEach(function(slot, i){%>
+      <%if (slot["display"]=='none') {%>
+      <div class="col-lg-3 slotspace2" style="margin-top: 10px; max-height: 100px">
+        <button type="button" id="x" name="" class="btn col-lg-12 addedslotsbuttons" style="display: inline-block; font-size: 12px"><%= slot['start'] %> - <%= slot['end'] %><div class="x"></div></button>
+      </div>
+      <%}%>
+
+          <%}); %>
+      <%# </div> %>
+    </div>
+  </div>
+  <form class="" action="/saveslots" method="post">
+    <button type="submit" class="btn btn-block submitslotbutton" name="button">Save the slots</button>
+  </form>
+</div>
+</div>
+
+<script type="text/javascript">
+  var day = "Monday";
+  $('body').on('click', '#slots a', async function(e) {
+    e.preventDefault();
+    // const selectedday = '<%- selectedday %>';
+    console.log($(this).text());
+    selectedslot = $(this).text().split('-');
+    const slotstart = selectedslot[0].trim();
+    const slotend = selectedslot[1].trim();
+    const url = "/addslot/" + day + "/" + slotstart + "/" + slotend;
+    // console.log(url);
+    await axios.get(url).then((response) => {
+      const data = response.data;
+      console.log(data);
+      // $("#greydiv").load(location.href + " #greydiv");
+      $("#days").load(location.href + " #days");
+      $("#slots").load(location.href + " #slots");
+      $("#selectedslots").load(location.href + " #selectedslots");
+      $("#heading").load(location.href + " #heading");
+    }).catch((error) => {
+      console.log(error);
+    });
+  });
+  $('body').on('click', '#x', async function(e) {
+    e.preventDefault();
+    selectedslot = $(this).text().split('-');
+    const slotstart = selectedslot[0].trim();
+    const slotend = selectedslot[1].trim();
+    const url = "/removeslot/" + day + "/" + slotstart + "/" + slotend;
+    // console.log(url);
+    await axios.get(url).then((response) => {
+      const data = response.data;
+      // console.log(data);
+      // $("#greydiv").load(location.href + " #greydiv");
+      $("#days").load(location.href + " #days");
+      $("#slots").load(location.href + " #slots");
+      $("#selectedslots").load(location.href + " #selectedslots");
+      $("#heading").load(location.href + " #heading");
+    }).catch((error) => {
+      console.log(error);
+    });
+  });
+  // $('body').on('click', '#days ul li', async function(e) {
+  $('body').on('click', '#days a', async function(e) {
+    e.preventDefault();
+    // console.log($(this).text());
+    const selectedday = $(this).text();
+    day = selectedday;
+    // console.log("here");
+    const url = "/slots/" + selectedday;
+    await axios.get(url).then((response) => {
+      const data = response.data;
+      // console.log(data);
+      // console.log(location.href + " #days");
+      $("#days").load(location.href + " #days");
+      $("#slots").load(location.href + " #slots");
+      $("#selectedslots").load(location.href + " #selectedslots");
+      $("#heading").load(location.href + " #heading");
+      // $("#greydiv").load(location.href + " #greydiv");
+    }).catch((error) => {
+      console.log(error);
+    });
+    loading.classList.remove('show');
+  });
+  $(document).ready(function() {
+    $("#days").load(location.href + " #days");
+    $("#slots").load(location.href + " #slots");
+    $("#selectedslots").load(location.href + " #selectedslots");
+    $("#heading").load(location.href + " #heading");
+  });
+
+  function openchats() {
+    const temp = "openchat";
+    var T = document.getElementById(temp),
+      displayValue = "";
+    if (T.style.display == "")
+      displayValue = "none";
+    T.style.display = displayValue;
+  }
+
+  function openChatWindows(mentorId, menteeId, i) {
+    console.log("clicked");
+    const divid = "tempdiv" + mentorId + "" + menteeId + "" + i;
+    console.log(divid);
+    var T = document.getElementById(divid);
+    displayValue = "";
+    if (T.style.display == "")
+      displayValue = "none";
+    T.style.display = displayValue;
+    // console.log("http://localhost:5000/chatscreen/"+mentorId+"/"+menteeId);
+    // $("#chatpage").prop("src","http://localhost:5000/chatscreen/"+mentorId+"/"+menteeId);
+  }
+</script>
+
+<%- include('partials/footer') %>

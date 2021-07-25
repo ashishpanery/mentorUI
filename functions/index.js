@@ -878,7 +878,6 @@ app.post("/login", function(req, res) {
   const url = base_url + "user/";
   firebase.auth().signInWithEmailAndPassword(email, password).then((userCredential) => {
     var user = userCredential.user;
-    // const authToken = user.b.b.h;
     const authToken = user.Aa;
     console.log(user);
     const bearerToken = "Bearer " + authToken;
@@ -919,7 +918,6 @@ app.post("/register", function(req, res) {
   firebase.auth().createUserWithEmailAndPassword(email, password).then(async function(userCredential) {
     var user = userCredential.user;
     console.log(user);
-    // const authToken = user.b.b.h;
     const authToken = user.Aa;
     const bearerToken = "Bearer " + authToken;
     BearerToken = bearerToken;
@@ -1062,6 +1060,7 @@ app.get("/homescreen", async function(req, res) {
   console.log(imgLink);
   res.render("homescreen", {
     scheduledSessions: scheduledSessions,
+    name:"Ashish",
     months: months,
     years: years,
     yearly: yearly,
@@ -2997,7 +2996,6 @@ app.get("/accountdetailsscreen", function(req, res) {
         "timeZone": "",
         "photoUrl": "/logo.jpeg",
         "currentCompany": "",
-        "designation": "",
         "previousCompany": "",
         "totalExperienceYears": "",
         "responsibilities": "",
@@ -3238,18 +3236,4 @@ app.get("/logout", function(req, res) {
 });
 
 //=============================================================================================================================================================================
-// let port = process.env.PORT;
-// if (port == null || port == "") {
-//   port = 5000;
-// }
-//
-// app.listen(port, function() {
-//   console.log("Server started on port 5000");
-// });
-
-
-
-// Create and Deploy Your First Cloud Functions
-// https://firebase.google.com/docs/functions/write-firebase-functions
-
 exports.app = functions.https.onRequest(app);
